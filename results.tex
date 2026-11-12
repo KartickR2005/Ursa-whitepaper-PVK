@@ -14,7 +14,7 @@ angles and transition temperatures with the measured structures.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.74\linewidth]{wp_tiltpatterns.pdf}
+  \includegraphics[width=0.8\linewidth]{wp_tiltpatterns.pdf}
   \caption{Octahedral tilts on cooling (blue) and heating (red) at \SI{0.25}{K/ps}. Left: tilt correlation of
     neighbouring octahedra about the main tilt axis (thick) and the other two axes (thin), mean of three runs; $+$
     in-phase, $-$ antiphase; grey bands: measured transitions; orange: \MASnI{} heated from an in-phase crystal. Right:
@@ -66,9 +66,7 @@ cation into a rectangle with a long axis $L$. In-phase stacking gives the lower 
 antiphase stacking crosses them. In the in-phase cage both cations lie along the common long axis. In the crossed cage
 FA, which carries an NH$_2$ group at each end and spans the cage, can follow only one face: it aligns with the far face
 and lies across the near one, so one end is always squeezed (Figure~\ref{fig:wp-sense}c). MA, with a single NH$_3$
-group, sits against one face and aligns with it, an arrangement that is lower in energy than in the in-phase cage. In
-\MASnI{} the energy carries the whole preference; in \FASnI{} energy and orientational entropy contribute about
-equally at \SI{200}{K}.
+group, sits against one face and aligns with it, an arrangement that is lower in energy than in the in-phase cage.
 
 \begin{figure}[t]
   \centering
@@ -93,7 +91,7 @@ bonded to a rigid substrate, the largest mismatch the process can produce.
 
 Both descriptions leave the films stretched in the plane by 0.2 to \SI{0.4}{\percent} (Table~\ref{tab:wp-film}). The
 rigid substrate builds up 63 to \SI{77}{MPa}, close to the imposed \SI{50}{MPa} and to the stresses measured in
-films. No compound changes its tilt pattern: the constraint weakens the tilt of \CsSnI{} about the film normal from
+films.\cite{Rolston2018AEM, Zhao2017SciAdv, ref_processing_temp} No compound changes its tilt pattern: the constraint weakens the tilt of \CsSnI{} about the film normal from
 \ang{8.5} to \ang{7.8}, and the hybrids stay untilted.
 
 \begin{table}[t]
@@ -123,7 +121,9 @@ films. No compound changes its tilt pattern: the constraint weakens the tilt of 
 The band gap was computed on snapshots of each film at the operating temperature and compared with the free crystal
 (Table~\ref{tab:wp-film}). Straining free snapshots to the cell of the processed film isolates the elastic part. In
 the hybrids this part opens the gap by 8 to \SI{15}{meV}; it follows the volume with a deformation potential of about
-\SI{3}{eV}, as expected for a valence-band maximum of antibonding Sn 5s--I 5p character.\cite{huang2013electronic}
+\SI{3}{eV}, as expected for a valence-band maximum of antibonding Sn 5s--I 5p character.\cite{huang2013electronic} The sign
+agrees with experiment: contracting untilted FA$_{1-x}$Cs$_x$SnI$_3$ lowers its gap,\cite{Prasanna2017JACS} and in lead
+halide films the more tensile surface layer emits about \SI{14}{meV} higher than the film below.\cite{Zhu2019NatCommun}
 The changes of the full films agree with the elastic part, so the untilted hybrids respond elastically. At the
 operating temperature the gap fluctuates by 35 to \SI{67}{meV} from snapshot to snapshot, several times the shift
 caused by the process. In \CsSnI{} preliminary values give an opening of about \SI{20}{meV} under tension, again close
@@ -131,49 +131,80 @@ to the elastic part.
 
 \subsection{Residual strain and thermal degradation}
 Without oxygen or moisture, the intrinsic routes of degradation are iodide migration through vacancies and, in
-\CsSnI{}, conversion to the yellow phase. We computed the free-energy barrier of an iodide hop into a neighbouring
+\CsSnI{}, conversion to the yellow phase, treated in the next section. We computed the free-energy barrier of an iodide hop into a neighbouring
 vacancy at the operating temperature, with the in-plane lattice strained by $-1$, 0 and $+\SI{1}{\percent}$
 (Table~\ref{tab:wp-hop}). In \CsSnI{} tension lowers both barriers, by \SI{17}{meV} per percent for hops within the
 film plane and \SI{35}{meV} per percent for hops out of it; at the residual strain of a clamped film,
 $+\SI{0.25}{\percent}$, iodide hops become 1.2 to 1.5 times faster. Direct simulations of cells with several
 vacancies confirm the trend: at \SI{475}{K} the hop rate at $+\SI{1}{\percent}$ is $2.2 \pm 0.2$ times that of the
-unstrained cell, with an activation energy of about \SI{0.40}{eV}. The hybrids respond less: their out-of-plane
+unstrained cell, with an activation energy of about \SI{400}{meV}. The hybrids respond less: their out-of-plane
 barriers fall by 28 (\MASnI{}) and \SI{6}{meV} (\FASnI{}) per percent, their in-plane barriers are lowest under
-compression, and at $+\SI{0.25}{\percent}$ their hop rates change by factors of 0.95 to 1.3.
+compression, and at $+\SI{0.25}{\percent}$ their hop rates change by factors of 0.95 to 1.3. The barriers lie in the
+range of measured activation energies of halide migration, $370 \pm \SI{60}{meV}$ in MASnBr$_3$\cite{Kubicki2020JACS} and
+600 to \SI{680}{meV} in \ce{MAPbI3} cells.\cite{Eames2015NatCommun} Measurements on lead halide films agree in sign: the
+activation energy of ion conduction in \ce{MAPbI3} films falls under tension,\cite{Zhao2017SciAdv} more steeply than
+computed because conduction also counts the mobile defects, and tensile CsPbI$_2$Br cells degrade faster at
+\SI{85}{\celsius} than compressed ones.\cite{ref_processing_temp}
 
-\begin{table}[t]
-  \centering\small
-  \caption{Free-energy barrier of an iodide hop into a vacancy (eV) against in-plane strain at the operating
-    temperature. In-plane: between two sites in the film plane; out-of-plane: between an apical and an in-plane site.
-    Uncertainty about \SI{0.02}{eV}.}
-  \label{tab:wp-hop}
-  \begin{tabular}{llccc}
-    \toprule
-    compound & hop & $-\SI{1}{\percent}$ & 0 & $+\SI{1}{\percent}$ \\
-    \midrule
-    \CsSnI{} & in-plane & 0.50 & 0.47 & 0.45 \\
-     & out-of-plane & 0.41 & 0.37 & 0.34 \\
-    \MASnI{} & in-plane & 0.33 & 0.39 & 0.40 \\
-     & out-of-plane & 0.42 & 0.42 & 0.39 \\
-    \FASnI{} & in-plane & 0.43 & 0.47 & 0.46 \\
-     & out-of-plane & 0.47 & 0.46 & 0.45 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\begin{figure}[t]
+  \centering
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering\small
+    \captionof{table}{Free-energy barrier of an iodide hop into a vacancy (meV) against in-plane strain at the
+      operating temperature; uncertainty about \SI{20}{meV}. Paths as in Figure~\ref{fig:wp-hop}.}
+    \label{tab:wp-hop}
+    \begin{tabular}{llccc}
+      \toprule
+      compound & hop & $-\SI{1}{\percent}$ & 0 & $+\SI{1}{\percent}$ \\
+      \midrule
+      \CsSnI{} & in-plane & 497 & 469 & 452 \\
+       & out-of-plane & 409 & 373 & 338 \\
+      \MASnI{} & in-plane & 333 & 392 & 397 \\
+       & out-of-plane & 416 & 418 & 390 \\
+      \FASnI{} & in-plane & 431 & 467 & 459 \\
+       & out-of-plane & 471 & 459 & 453 \\
+      \bottomrule
+    \end{tabular}
+  \end{minipage}\hfill
+  \begin{minipage}[b]{0.46\linewidth}
+    \centering
+    \includegraphics[width=0.78\linewidth]{wp_hop_path.pdf}
+    \captionof{figure}{Iodide hop paths: from a neighbouring in-plane site or from the apical site of the same
+      octahedron into an in-plane vacancy.}
+    \label{fig:wp-hop}
+  \end{minipage}
+\end{figure}
 
-For \CsSnI{} we compared the free energies of the yellow and the black phase and their dependence on stress. At the
-operating temperature the yellow phase is the stable one, by 12 to \SI{19}{meV} per formula unit, as observed.\cite{Chung2012JACS}
-It is denser by \SI{11.5}{\angstrom^3} per formula unit, so tension favours the black phase, but only slightly: an
-in-plane tension of \SI{50}{MPa} raises the free energy of yellow against black by \SI{2.4}{meV} per formula unit and
-lowers their crossing temperature by \SI{11}{K}. Reversing the stability at the operating temperature would take 230
-to \SI{380}{MPa}, several times the residual stress of a film.
+\subsection{Black and yellow \CsSnI{}}
+Of the three compounds only \CsSnI{} has a non-perovskite competitor, a yellow phase built from chains of
+edge-sharing octahedra.\cite{Chung2012JACS} Experiment fixes two points: yellow \CsSnI{} turns black only on heating,
+at about \SI{425}{K}, and black films kept in air at room temperature turn yellow.\cite{Chung2012JACS,
+ref_sn_instability} We computed the free energies of both phases as a function of temperature
+(Figure~\ref{fig:wp-yb}). At the operating temperature the yellow phase is lower by 11 to \SI{19}{meV} per formula
+unit: its lower enthalpy outweighs the larger vibrational entropy of the black phase, whose advantage grows with
+temperature. The two free energies cross between 350 and \SI{385}{K}, below the \SI{425}{K} at which yellow crystals
+convert on heating; the conversion rebuilds the octahedral network and sets in only above the equilibrium
+temperature. The simulated yellow phase is denser by \SI{5}{\percent}, against \SI{6}{\percent} for the measured
+structures,\cite{Chung2012JACS} so in-plane tension favours the black phase. The residual stress of a processed film,
+50 to \SI{80}{MPa}, shifts the balance by only 2 to \SI{4}{meV} per formula unit and the crossing by 11 to
+\SI{18}{K}. An in-plane strain of about \SI{1}{\percent}, the level at which substrate clamping keeps black
+CsPbI$_3$ films from converting,\cite{Steele2019Science} corresponds to \SI{230}{MPa} in \CsSnI{} and moves the
+crossing to 300 to \SI{335}{K}, close to the operating temperature.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.52\linewidth]{wp_yb.pdf}
+  \caption{Free energy of yellow relative to black \CsSnI{} per formula unit. Solid: unstrained crystal; shaded:
+    uncertainty of the enthalpy difference of the two phases; dashed: in-plane tension of \SI{230}{MPa}, about
+    \SI{1}{\percent} strain. Temperatures on the device scale of the processing model. Dotted: operating temperature,
+    damp-heat test and the measured conversion of yellow to black on heating.\cite{Chung2012JACS}}
+  \label{fig:wp-yb}
+\end{figure}
 
 \subsection{Insights}
 The A-site cation, not the process, sets how the octahedral tilts stack. A cation with a hydrogen-bonding group at
 each end, such as FA, is frustrated by crossed cage faces and selects in-phase tilting; a cation anchored at one end,
-such as MA, selects antiphase tilting. The preference is of the order of the thermal energy per formula unit, large
-enough to fix the stacking of a tilt domain whatever the cooling path, and the cage-shape argument offers a criterion
-for choosing cations.
+such as MA, selects antiphase tilting. The cage-shape argument offers a criterion for choosing cations.
 
 Processing leaves the films under 0.2 to \SI{0.4}{\percent} in-plane tension and 50 to \SI{80}{MPa}, the range
 measured in films, without changing the tilt pattern of any compound. For the untilted hybrids the resulting band-gap
@@ -184,6 +215,7 @@ levers on the band gap.
 They are stronger levers on stability. Residual tension accelerates iodide migration, most in the tilted inorganic
 compound, where hops become 1.2 to 1.5 times faster at the residual strain and about twice as fast at
 \SI{1}{\percent}; in the hybrids the effect is small. The same tension shifts the balance between black and yellow
-\CsSnI{} by only a few meV per formula unit, so the conversion to the yellow phase is not driven by the residual
-stress. For \CsSnI{} films, a lower anneal temperature or a substrate whose thermal expansion is closer to that of the
+\CsSnI{} by only 2 to \SI{4}{meV} per formula unit; the yellow phase stays the stable one at the operating
+temperature, and the black film survives because the conversion is slow. Only strains near \SI{1}{\percent}, several
+times those left by processing, would bring the crossing to the operating temperature. For \CsSnI{} films, a lower anneal temperature or a substrate whose thermal expansion is closer to that of the
 film should therefore slow the degradation that proceeds through iodide migration.
