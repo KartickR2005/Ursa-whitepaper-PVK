@@ -1,0 +1,56 @@
+% SUPERSEDED 2026-10-28 ~19:15 UTC: moved into results.tex (sec:res-sense, with Figure fig:tilt-sense); edit there.
+% DRAFT (2026-10-28 evening, not \input anywhere): "why the cation sets the tilt sense", to go after the Table 8
+% paragraph of sec:res-tilt once the oriented-cation DFT (tilt_sense/orient) and the literature check
+% (tilt_sense/literature_tilt_sense.md) are in. Sources: tilt_sense/tilt_scan (build_tilt_scan.py, tilt_scan_relax.py,
+% tilt_scan_analyze.py, tilt_scan_orient.py), tilt_sense/tilt_sense_compare.md (48-atom DFT).
+\subsection{\protect\changed{Why the cation sets the tilt sense}}
+\label{sec:res-sense}
+{\changedcolor
+The opposite stacking of FA and MA compounds is well documented for the lead iodides and their
+mixtures.\cite{Fabini2016Angew, Hainer2025NatCommun, Dubajic2025NatNano} The inorganic framework hardly prefers
+either: in DFT the in-phase and antiphase tilts of \CsSnI{} at 8 and \ang{12} differ by at most
+\SI{0.04}{\milli\hartree} per formula unit with either functional, as found for CsPbI$_3$ and
+\CsSnI{},\cite{Klarbring2019PRB} against 0.4 to \SI{2.8}{\milli\hartree} for the hybrids. The sense is chosen by the
+A-site cation. Proposed reasons are a general preference of halides for in-phase tilts,\cite{Young2016JPCL} hydrogen
+bonds of MA that drive the antiphase mode,\cite{Lee2016ChemMater} an FA arrangement that templates the in-phase
+tilt,\cite{Senno2021PCCP} and the near-degeneracy of the two tilt modes.\cite{Hainer2025NatCommun} We show that the
+shape of the cage accounts for both cations.
+
+The static energy of a single cell does not show which sense a cation prefers, because it depends on how the cations
+are arranged. In the four-formula-unit cells used for DFT, the antiphase--in-phase difference changes by 2 to
+\SI{3}{\milli\hartree} per formula unit from one random arrangement to the next, more than its mean. We therefore
+computed it with each potential for 20 to 160 random arrangements in cells of 4 to 128 formula units, tilted in-phase
+or antiphase by 4, 8 or \ang{12} about $c$ at a fixed cubic metric. Each arrangement is placed in both cells and the
+cations are relaxed with Sn and I fixed. The scatter falls as the inverse square root of the cell size, and the
+largest cells give a clear answer (Figure~\ref{fig:tilt-sense}). In the 128-formula-unit cells at \ang{8},
+\FASnI{} is lower in-phase by \num{0.88 \pm 0.08} (PBEsol) and \SI{1.19 \pm 0.12}{\milli\hartree} (\rSCAN{}) per
+formula unit for all but one arrangement, and \MASnI{} is lower antiphase by \num{0.62 \pm 0.05} and
+\SI{1.23 \pm 0.08}{\milli\hartree} for every arrangement. Both preferences peak near \ang{8} and fall to a few tenths of a
+millihartree at \ang{12}, where \FASnI{} turns slightly antiphase. The sense is therefore chosen where the tilt forms,
+near the transition; at large static tilts FAPbI$_3$ is antiphase as well.\cite{Dutta2025JACS}
+
+The cause is the shape of the cage. A tilt about $c$ turns each face of the A-site cage into a rectangle, long along
+one in-plane axis $L$. In-phase tilting gives the upper and lower faces the same long axis, a box of uniform
+cross-section; antiphase tilting crosses them, so the long axis turns by \ang{90} from the lower to the upper face.
+Fitting the energy difference of the small cells to the cation orientations gives the contribution of a cation
+pointing along each axis. Both cations penalise in-phase tilting when they lie along the short axis of the box and
+favour it when they lie along $L$. They differ along $c$: an FA cation standing along $c$ favours in-phase by 6 to
+\SI{8}{\milli\hartree}, an MA cation favours antiphase by 3 to \SI{4}{\milli\hartree}. Planar FA carries an NH$_2$
+group at each end; lying along $L$, or standing along $c$ with its plane through $L$, it meets two equivalent faces of
+the box, while in the crossed cage one end is always squeezed. Averaged over orientations, FA favours in-phase and MA
+antiphase. Relaxation turns the FA cations towards $L$ in the in-phase cell ($\langle (\hat u\cdot L)^2\rangle$ rises
+from 0.33 to 0.6--0.7 for the N--N axis $\hat u$).
+
+The deposited structures and the MD agree. In both structures of \FASnI{} (Table~\ref{tab:expt-tilt}) the FA
+nitrogens lie along the long axis of their cage, with the N--N axes of neighbouring cages perpendicular in the plane and
+repeated along $c$;\cite{Kahmann2020ACSEL} the refinement of tetragonal \MASnI{} places the C--N axis along
+$c$,\cite{stoumpos2013semiconducting} the orientation that favours antiphase stacking most, although with large
+displacement parameters. In the in-phase phase of the MD the FA cations keep their N--N axis in the plane (mean
+$|\cos|$ with the tilt axis 0.16 to 0.29, against 0.5 for random orientations), while in the antiphase phase the MA
+cations turn almost freely (0.46 to 0.48), so for MA the preference is an average over orientations.
+% TODO(oriented DFT): one sentence with the DFT energies of the oriented cells (FA Lflat / Lpflat / cL / cLp; MA L / Lp / c).
+% literature: done (JCTC.bib keys Klarbring2019PRB, Young2016JPCL, Lee2016ChemMater, Senno2021PCCP, Hainer2025NatCommun,
+% Dubajic2025NatNano, Dutta2025JACS, Fabini2016Angew; tilt_sense/literature_tilt_sense.md).
+% MA/FA orientation: done (cage_sense.py on x5_2304_<MA|FA>_R2_cool_r05; CIF check of COD 4517852/4517853/4335636 with
+% tilt_scan_orient.long_axes: (N-N.L)^2 = 1.00 in both FASnI3 structures; MASnI3 I4cm C-N along c, Uiso 0.17/0.27).
+}

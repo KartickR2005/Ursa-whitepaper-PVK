@@ -1,0 +1,115 @@
+%% ============================================================
+%%  Master file -- each section lives in its own .tex file.
+%%  Class: achemso. Journal key cmatex (Chemistry of Materials) as
+%%  set up in the first Overleaf version. NOTE: the project plan
+%%  (PaperData/plan-docs/Sn_perovskite_project_handoff.md, Sec. 5)
+%%  recommends Phys. Rev. Materials or J. Phys. Chem. C instead of
+%%  Chem. Mater.; for JPCC change the key to jpccck. The section
+%%  files are journal-neutral.
+%%  The earlier draft (M5-CRM report workflow) is kept unchanged in
+%%  legacy/M5CRM_report_draft/ and is not compiled.
+%%  Local build: tectonic -X compile JCTCmain.tex
+%% ============================================================
+\documentclass[journal=cmatex, manuscript=article]{achemso}
+
+%% ----- Packages -------------------------------------------
+\usepackage[version=4]{mhchem}          % \ce{} chemical formulae
+\usepackage{graphicx}                   % \includegraphics
+\usepackage{booktabs}                   % \toprule / \midrule / \bottomrule
+\usepackage{siunitx}                    % \SI{}{} and \si{} units
+\usepackage{amsmath}                    % align, etc.
+\usepackage{xcolor}                     % coloured TODO notes
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}                       % workflow schematic
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{url}
+
+\input{macros}
+\graphicspath{{figures/}}
+
+%% ----- Author / affiliation block -------------------------
+\author{Kartick Ramakrishnan}
+% \email{kartick.rk@gmail.com, kartick.ramakrishnan@ursasimulation.com}
+% \affiliation[Paramanu Sciences ]
+% {Paramanu Sciences, Chennai 600090 India}
+%\altaffiliation{A shared footnote}
+\author{Shashikant Kumar}
+% \email{shashikant.kumar@ursasimulation.com}
+%\altaffiliation{}
+%\fax{}
+\affiliation[Ursa Simulation]
+{Ursa Simulation Inc, Atlanta Georgia USA}
+\author{Swarnava Ghosh}
+%\altaffiliation{}
+%\fax{}
+\affiliation[Ursa Simulation]
+{Oak Ridge National Lab, Tennessee, USA}
+\author{Ray}
+\email{ray@ursasimulation.com}
+%\altaffiliation{}
+%\fax{}
+\affiliation[Ursa Simulation]
+{Ursa Simulation Inc, Atlanta Georgia USA}
+
+%% ----- Title and keywords ---------------------------------
+%% Working title of the new study (project plan, 28 Sep 2026).
+%% Titles of the earlier draft, kept for reference:
+% \title{Finite-Temperature Band-Gap Evolution in Lead-Free
+%        Tin-Halide Perovskites: Disentangling Lattice Expansion,
+%        Phase Transitions, and Organic-Cation Disorder}
+% \title{Cation Disorder and Band-Gap Statistics in Lead-Free Tin-Halide Perovskites: A Converged First-Principles Ensemble Approach}
+% \title{Clamped at the Anneal: How Manufacturing Sets the Operating Band Gap of Tin Halide Perovskites}
+% \title{\changed{Why FA and MA Tin Iodides Tilt Oppositely: Cage Shape, Cooling Path and the Operating Band Gap}}
+\title{\changed{Tin Iodide Perovskites under Processing Strain: Why Tilts Differ, and How They Set Band Gap and Iodide Migration}}
+
+\keywords{perovskite, band gap, tin halide, lead-free, residual stress,
+          substrate clamping, phase transition, machine-learning force field,
+          density functional theory}
+
+%% ============================================================
+\begin{document}
+
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+
+%% Main sections
+\section{Introduction}
+\input{intro}
+\section{Computational Methods}
+\input{computationalMethodology}
+\section{Results and Discussion}
+\input{results}
+\clearpage
+\section{Conclusions}
+\input{conclusions}
+
+%% Back matter (achemso environments). The 'Supporting Information Available' paragraph
+%% (\input{supportingInfoList} in a suppinfo environment) is left out while the SI is appended below.
+
+\section*{Data Availability Statement}
+The DFT labels, the fine-tuned UrsaMLFF and MACE models, the MD input files, the frames sent to DFT
+with their results, and the analysis scripts are available from the corresponding author upon
+reasonable request. UrsaDFT-PW and UrsaMLFF are in-house codes of Ursa Simulation.
+
+\begin{acknowledgement}
+\input{acknowledgement}
+\end{acknowledgement}
+
+%% Supporting Information appended to the manuscript for now (user 2026-10-15); the standalone file
+%% SupportingInformation.tex inputs the same body.
+\clearpage
+\section*{Supporting Information}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\input{si/si_body}
+
+%% Bibliography
+\bibliography{JCTC}
+
+\end{document}

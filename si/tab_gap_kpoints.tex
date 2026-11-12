@@ -1,0 +1,17 @@
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Location of the band edges in the DFT calculations of this work that sample more than one $k$-point (PBEsol and \rSCAN{}, perovskite structures; Fermi--Dirac \SI{500}{K}, no SOC; energies in meV). Frames: static, relaxed phases and frozen tilt patterns; MD, snapshots of molecular dynamics. $N$: calculations. At $\Gamma$: calculations with both band edges at $\Gamma$. $\Gamma-\min$: largest difference between the gap at $\Gamma$ and the smallest gap on the mesh. Margins: smallest amount by which $\Gamma$ is the valence-band maximum (VB) and the conduction-band minimum (CB) over the other mesh points; negative when the edge lies elsewhere. The 80-atom cell is the fcc-type supercell with vectors $(0,2,2)$, $(2,0,2)$ and $(2,2,0)$ in units of \apc{}, onto whose $\Gamma$ point $R$ also folds; its snapshots are from \SI{600}{K}.}
+\label{tab:si-gap-kpoints}
+\begin{tabular}{lrlllrrrr}
+\toprule compound & atoms & frames & mesh & functional & $N$ & at $\Gamma$ & $\Gamma-\min$ & margin VB / CB \\ \midrule
+\CsSnI{} & 20 & static & 4$\times$4$\times$3 & PBEsol, \rSCAN{} & 76 & 76 & 0 & 406 / 98 \\
+\CsSnI{} & 40 & static & 3$\times$3$\times$6 & PBEsol & 3 & 3 & 0 & 335 / 41 \\
+\CsSnI{} & 80 & MD & 2$\times$2$\times$2 & \rSCAN{} & 2 & 1 & 11 & 54 / $-$11 \\
+\CsSnI{} & 80 & static & 3$\times$3$\times$3 & PBEsol & 3 & 3 & 0 & 336 / 41 \\
+\CsSnI{} & 120 & static & 3$\times$3$\times$2 & PBEsol & 4 & 4 & 0 & 336 / 41 \\
+\CsSnI{} & 240 & MD & 2$\times$2$\times$1 & PBEsol & 14 & 14 & 0 & 363 / 43 \\
+\MASnI{} & 192 & MD & 2$\times$2$\times$3 & PBEsol, \rSCAN{} & 28 & 28 & 0 & 213 / 17 \\
+\FASnI{} & 192 & MD & 2$\times$2$\times$3 & PBEsol, \rSCAN{} & 20 & 20 & 0 & 261 / 4 \\
+\bottomrule
+\end{tabular}
+\end{table}

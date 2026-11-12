@@ -1,0 +1,105 @@
+Hybrid and all-inorganic halide perovskites have emerged as leading
+candidates for next-generation photovoltaic (PV) absorbers, with
+certified single-junction power-conversion efficiencies now
+exceeding \SI{26}{\percent}.\cite{ref_efficiency}
+A persistent challenge in translating laboratory performance to
+commercial deployment is the toxicity of lead, which remains the
+standard B-site cation in high-efficiency perovskite absorbers.
+\cite{ref_pb_toxicity}
+Tin-based perovskites --- including the all-inorganic \CsSnI{} and
+the hybrid methylammonium (MA) and formamidinium (FA) variants
+\MASnI{} and \FASnI{} --- have attracted considerable attention as
+lead-free alternatives, owing to their favourable optical band gaps
+in the \SIrange{1.2}{1.4}{eV} range, high charge-carrier mobilities,
+and structural versatility.\cite{pitaro2022tin, stoumpos2013semiconducting}
+However, tin-halide perovskites exhibit pronounced chemical
+instability under ambient conditions, strong polymorphism across
+accessible temperature ranges, and a complex interplay between
+structure and electronic properties that complicates both materials
+optimisation and device integration.\cite{ref_sn_instability}
+
+Among the properties most directly relevant to PV performance, the
+optical band gap is central.
+In a solar-cell absorber, the band gap governs both the photon
+absorption onset and the thermodynamic ceiling on open-circuit
+voltage, making its temperature dependence a practically important
+quantity.
+Real devices experience a wide temperature range during fabrication,
+module lamination, and outdoor service, and processing steps such as
+annealing can transiently expose the absorber layer to temperatures
+at which structural phase changes occur.\cite{ref_processing_temp}
+Understanding how the band gap responds to temperature --- and which
+structural degrees of freedom drive that response --- is therefore
+not merely a fundamental question but one with direct manufacturing
+relevance.
+
+Temperature affects the electronic structure of halide perovskites
+through at least three coupled mechanisms.
+First, thermal expansion dilates the unit cell, which modifies
+metal--halide bond lengths and bond angles and directly perturbs
+the band edges.\cite{huang2013electronic}
+Second, tin-halide perovskites are strongly polymorphic:
+\CsSnI{}, \MASnI{}, and \FASnI{} each undergo transitions among
+orthorhombic, tetragonal, and cubic phases across the temperature
+range relevant to PV processing and operation, and each polymorph
+carries a distinct pattern of octahedral tilting and connectivity
+that shifts the electronic structure independently of lattice
+volume.\cite{schueller2018crystal, stoumpos2013semiconducting}
+Third, in hybrid perovskites, the organic A-site cations --- MA and
+FA --- are rotationally mobile, and their orientational disorder
+couples to the inorganic \ce{Sn-I} cage, introducing an additional
+structural degree of freedom that can modulate the band gap through
+A-site--cage interactions.\cite{laven2023rotational, maheshwari2019relation}
+In practice, these three contributions act simultaneously, making it
+difficult to assign observed temperature-dependent band-gap changes
+to a single mechanism.
+
+Prior computational studies have individually addressed
+lattice-constant effects on band gap,\cite{huang2013electronic}
+phase-dependent electronic structure in selected tin
+perovskites,\cite{stoumpos2013semiconducting} and cation rotational
+dynamics in hybrid systems.\cite{maheshwari2019relation, hautzinger2024asite}
+However, a systematic study that separates and quantifies all three
+contributions --- expansion, phase identity, and cation disorder ---
+within a common computational framework, and across materials
+spanning both all-inorganic and hybrid chemistries, has not been
+reported.
+The absence of such a study leaves open questions that are directly
+relevant to materials design: does lattice expansion dominate over
+phase effects, or vice versa?
+Do MA and FA perturb the band gap in the same way or through
+distinct mechanisms?
+And how do these effects combine under realistic finite-temperature
+conditions that include simultaneous lattice dilation and structural
+disorder?
+
+In this work, we address these questions through a controlled
+computational study of \CsSnI{}, \MASnI{}, and \FASnI{} across
+their three accessible polymorphs.
+We deploy a validated MLFF for long-time finite-temperature MD to
+characterise phase behaviour, and a system-specific accelerated
+single-step DFT (SS-DFT) framework for efficient band-gap evaluation
+over large supercells.
+The study is organised around four controlled tasks:
+\begin{enumerate}
+  \item finite-temperature phase-transition analysis via long-time
+        MD heating and cooling cycles;
+  \item controlled lattice-scaling scans to isolate the thermal
+        expansion contribution to band gap;
+  \item cation-orientation sensitivity studies in the two hybrid
+        systems; and
+  \item an integrated demonstration combining finite-temperature
+        structural sampling with externally imposed strain, intended
+        to bridge the gap between idealised mechanism studies and
+        more realistic process-relevant conditions.
+\end{enumerate}
+
+Our results demonstrate that the net temperature dependence of band
+gap in these tin perovskites is a composite effect in which lattice
+expansion, phase identity, and cation orientation contribute
+independently and can either reinforce or partially cancel one another
+depending on the composition and temperature regime.
+These findings provide a mechanistic foundation for rational
+band-gap engineering in lead-free tin-halide perovskites and
+establish a reusable computational workflow applicable to a broader
+class of halide perovskite systems.

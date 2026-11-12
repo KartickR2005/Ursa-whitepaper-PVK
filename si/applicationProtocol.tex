@@ -1,0 +1,214 @@
+% Detailed protocol of the application study (moved from the main-text Methods on 2026-10-15, user:
+% summary in the Results, details in the SI). Sources as listed in computationalMethodology.tex.
+\section{Application protocol: clamping and band gaps}
+\label{si:app}
+
+\subsection{Mechanical boundary conditions}
+\label{si:brackets-protocol}
+
+\paragraph{Film geometry.}
+The $a$ and $b$ axes of the cell are the in-plane directions of a
+(001)-oriented film and $c$ is its normal. The stress is
+$\sigma = -W/V$, where $W$ is the virial including the kinetic contribution;
+positive values are tensile.
+
+\paragraph{Temperature anchoring.}
+The absolute transition temperatures of a force field carry its systematic
+errors. To place the anneal and the operating point in the same phase and at
+the same distance from \Tc{} as in a device, every device temperature $T$ is
+mapped onto the model as $T_\mathrm{sim} = T + [\Tc(\mathrm{model}) -
+\Tc(\mathrm{expt})]$, using the transition that the anneal-to-operation cooling
+path approaches: $\gamma\leftrightarrow\beta$ for \CsSnI{},
+$\beta\leftrightarrow\alpha$ for \MASnI{} and the loss of tilt order for
+\FASnI{}, each on heating in the production cell. The device temperatures are
+the operating temperature (\SI{300}{K}), the damp-heat test (\SI{358}{K}), the
+anneal (\SI{373}{K}) and, for \CsSnI{} only, a cubic anneal at \SI{440}{K}. The
+shifts are $+49$, \changed{$+27$ and $+4$}~K for \CsSnI{}, \MASnI{} and \FASnI{}, giving
+the simulation temperatures of Table~\ref{tab:si-anchored}. A control set at the
+unshifted device temperatures (one run per condition) tests the effect of the
+anchoring. \changed{The transition temperatures of the hybrids are those of heating runs started from the
+model's \SI{50}{K} cell (main text, section \emph{Starting structure of the hybrid heating runs}). The \MASnI{}
+shift of $+\SI{27}{K}$ replaces a shift of $-\SI{65}{K}$ obtained from runs started in an oversized cell; the
+\MASnI{} runs at 235, 293 and \SI{308}{K} made with that shift are listed in Table~\ref{tab:si-brackets} but not
+used in the main text. The \FASnI{} shift was computed from the earlier runs (\SI{242 \pm 4}{K}); the runs from
+the \SI{50}{K} cell give \SI{248 \pm 6}{K}, a shift larger by \SI{6}{K}, within the error, so the \FASnI{}
+campaigns were kept.}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Device temperatures and the anchored simulation temperatures
+    (K). The shift is $\Tc(\mathrm{model}) - \Tc(\mathrm{expt})$ of the
+    anchor transition.}
+  \label{tab:si-anchored}
+  \begin{tabular}{lcccc}
+    \toprule
+    & \CsSnI{} & \MASnI{} & \FASnI{} \\
+    \midrule
+    anchor transition & $\gamma\leftrightarrow\beta$ & $\beta\leftrightarrow\alpha$ & tilt loss \\
+    \Tc{} model / expt & 411 / 362 & \changed{302 / 275} & \changed{242$^{b}$ / 238$^{a}$} \\
+    shift & $+49$ & \changed{$+27$} & \changed{$+4$} \\
+    operation (\SI{300}{K}) & 349 & \changed{327} & \changed{304} \\
+    damp heat (\SI{358}{K}) & 407 & \changed{385} & \changed{362} \\
+    anneal (\SI{373}{K}) & 422 & \changed{400} & \changed{377} \\
+    cubic anneal (\SI{440}{K}) & 489 & -- & -- \\
+    \bottomrule
+  \end{tabular}
+  \begin{flushleft}
+    \small $^{a}$ Midpoint of the experimental range \SIrange{225}{250}{K}.\cite{schueller2018crystal}
+    \changed{$^{b}$ From the runs started in the oversized cell; \SI{248 \pm 6}{K} from the \SI{50}{K} cell.}
+  \end{flushleft}
+\end{table}
+
+\paragraph{Three brackets.}
+A real film lies between two limits: a free-standing crystal and a crystal
+whose in-plane dimensions are fixed by a rigid substrate. We simulate both
+limits and one realistic intermediate state, each with three independent runs
+at the operating temperature and one at the damp-heat temperature. The free
+bracket (ref) applies a constant pressure $P_\mathrm{ext}$ on all three axes.
+The stress-controlled bracket (sctl) applies an in-plane tensile stress of
+\SI{50}{MPa} ($P_{xx} = P_{yy} = P_\mathrm{ext} - \SI{0.05}{GPa}$) with the
+normal free ($P_{zz} = P_\mathrm{ext}$), the residual stress level measured in
+perovskite films.\cite{Rolston2018AEM} The rigid clamp with process history
+(proc) consists of \SI{50}{ps} of free constant-pressure MD at the anneal
+temperature, after which $a$ and $b$ are frozen while $c$ stays free; the cell
+is then cooled at \SI{2}{K/ps} to the damp-heat temperature (held
+\SI{50}{ps}) and to the operating temperature (held \SI{100}{ps}). The thermal
+contraction of the substrate itself is neglected; the residual stress of a
+film arises because it is much smaller than that of the
+perovskite.\cite{Rolston2018AEM, ref_processing_temp} For \CsSnI{} the same
+protocol is also started from the cubic anneal (proccub).
+Equilibrium runs start from a heating-ramp frame of the free crystal close to
+the target temperature, with the cell set to the five-run mean at that
+temperature, and consist of \SI{5}{ps} of constant-volume MD followed by
+\SI{150}{ps} at the target condition. The first \SI{50}{ps} of the last stage
+are discarded and averages are taken over the remaining frames.
+
+\paragraph{Elastic response.}
+Two ladders at the operating temperature give the elastic constants of each
+model and the strain dependence of the structure: biaxial strains of $\pm0.25$,
+$\pm0.5$, $\pm1$ and $\pm\SI{2}{\percent}$ applied to $a$ and $b$ (frozen,
+$c$ free), and hydrostatic pressures of $-0.3$, $-0.15$, $+0.15$, $+0.3$ and
+$+\SI{0.6}{GPa}$ relative to $P_\mathrm{ext}$. The biaxial modulus
+$Y/(1-\nu)$, Poisson's ratio $\nu$, Young's modulus $Y$ and the bulk modulus
+$B$ are fitted to the mean stresses and cells.
+
+\paragraph{Transition temperatures under the clamp.}
+Because the model supercools, the shift of a transition under the clamp is
+measured on heating. For \CsSnI{}, cells are clamped in-plane at the mean free
+cell of the anneal state and heated from the operating temperature at
+\SI{2}{K/ps} through both transitions (three runs). The transition temperatures
+are determined as for the free ramps, and $\dTc = \Tc(\mathrm{clamped}) -
+\Tc(\mathrm{free})$. A $\gamma$-phase cell held under the same clamp at the
+operating temperature (\SI{150}{ps}, three runs) provides the clamped $\gamma$
+state for the band-gap calculations. Clamped heating runs have so far been made for \CsSnI{} only.
+
+\subsection{Band gaps of the clamped and free ensembles}
+\label{si:gaps-protocol}
+
+\paragraph{DFT on production frames.}
+Band gaps are computed with the label settings of the main text (\emph{Electronic structure}) on
+complete production frames of 2000 or 2304 atoms, so no subcell has to be cut
+out of the MD cell. The gap is the lowest unoccupied minus the highest occupied
+Kohn--Sham eigenvalue. The supercells sample only the $\Gamma$ point. In the
+$\sqrt{2}\times\sqrt{2}\times2$ setting the supercell vectors are
+$n_1(1,1,0)$, $n_2(-1,1,0)$ and $n_3(0,0,2)$ in units of \apc{}, so the
+pseudo-cubic $R$ point, which carries the band extrema of the cubic phase and
+from which those of the tilted phases derive, folds onto $\Gamma$ for every
+$n_1$, $n_2$, $n_3$; so does the in-phase tilt vector $M=(\tfrac12,\tfrac12,0)$.
+In a pseudo-cubic supercell with an odd number of repeats along an axis, $R$
+would instead fold onto the zone boundary, and a $\Gamma$-only gap would be too
+large. Each DFT calculation also returns the energy of the frame, which tests
+UrsaMLFF in the clamped ensembles.
+
+\paragraph{$\Gamma$-point sampling.}
+The folding argument holds for the average structure. A thermal snapshot has
+no symmetry beyond the supercell lattice, and disorder could move a band edge
+to another point of the supercell zone. Table~\ref{tab:si-gap-kpoints}
+collects every DFT calculation of this work that samples more than one
+$k$-point. In all 86 static structures and in all 62 MD snapshots of 192 and
+240 atoms, both band edges are at $\Gamma$, by at least \SI{213}{meV} for the
+valence band and \SI{4}{meV} for the conduction band. The conduction band has
+the smaller margin because, without SOC, its minimum at $R$ is threefold
+degenerate and includes heavy branches. In the 80-atom fcc-type cell at
+\SI{600}{K}, one of two snapshots has its conduction-band minimum off
+$\Gamma$, and its $\Gamma$ gap is \SI{11}{meV} too large. Such an error is
+bounded by the width of the band-edge bands across the supercell zone, which
+falls roughly as the inverse square of the cell length: by a factor of about
+five from the 80-atom cell to the hybrid production cells and of about eight
+to the \CsSnI{} cells. The $\Gamma$ gap can only overestimate the band-edge
+gap, and by similar amounts in clamped and free frames of the same compound,
+so the error largely cancels in \dEg{}.
+
+\paragraph{Frame selection.}
+Coordinates are never averaged: the gap of the mean structure differs from
+the mean gap because averaging removes the tilts that open the gap. Instead, we
+select individual frames. For every frame in the averaging window a vector of
+structural descriptors is computed: the root-mean-square tilt and the in-phase
+and antiphase tilt order about each pseudo-cubic axis, the mean, minimum and
+fifth percentile of the Sn--I--Sn angles, the mean, spread and 95th percentile
+of the Sn--I bond lengths, the off-centring of Sn in its octahedron, the 95th
+percentile of the tilt angles, and for the hybrids the polarisation of the
+cation axes, the fractions of cations nearest to $\langle100\rangle$,
+$\langle110\rangle$ and $\langle111\rangle$ and the nearest-neighbour
+orientational correlation. Within each run the autocorrelation time $\tau$ of
+the first principal component of these descriptors defines a spacing
+$\Delta = \max(2\tau, \SI{5}{ps})$, and the frames of a bracket are thinned to
+at least $\Delta$ apart. The candidates of a bracket are divided into strata,
+run $\times$ first or second half of the window, or into clusters when
+$k$-means finds a well separated split of the descriptors (silhouette above 0.5
+and the smaller cluster above \SI{15}{\percent}), as expected for coexisting
+tilt states. Frames are drawn at random within strata with a fixed seed.
+
+\paragraph{Two-level estimator.}
+Level~1 isolates the elastic part of the gap change. Six free frames per
+material are each computed as they are and after an affine strain to the mean
+cell of the stress-controlled bracket, of the rigid clamp, and of the
+$\pm\SI{0.3}{GPa}$ hydrostatic runs. Pairing the same configuration cancels
+the configurational noise, and the paired differences give the gap change at
+fixed internal structure and the deformation potential $\mathrm{d}\Eg/\mathrm{d}\ln V$.
+Level~2 compares the ensembles: the mean gap of each bracket is the
+stratum-weighted mean $\langle \Eg\rangle = \sum_k w_k m_k$ with the stratum
+weights $w_k$ of the candidate pool, and its variance is $\sum_k w_k^2
+s_k^2/n_k$; for a stratum with a single frame the spread of the bracket is used.
+A pilot of two frames per bracket was planned to set a Neyman
+allocation\cite{Neyman1934} of further frames in proportion to $w_k s_k$; its
+within-stratum spreads were too uncertain for that, so the three brackets at the
+operating temperature were completed to 16 frames each with the frames
+distributed over the strata in proportion to $w_k$. Level~1 uses the mean cells
+of the first three runs of each bracket, which differ from the eight-run means by
+at most \SI{0.08}{\percent} in-plane for the hybrids and \SI{0.16}{\percent}
+for the rigid clamp of \CsSnI{}. A ridge regression of the gap on the descriptors was foreseen as a
+control variate, $\langle \Eg\rangle \approx \overline{f}_\mathrm{pool} +
+\overline{(\Eg - f)}_\mathrm{DFT}$, where $f$ is evaluated on every candidate
+frame. On the present frames the frame-averaged descriptors do not predict the
+gap (Table~\ref{tab:si-gap-scatter}), so the stratified means are reported
+without it. The difference between Level~2 and Level~1 is the part of the gap
+change carried by the relaxation of tilts and cation orientations. For each
+bracket we report the mean gap shift relative to the free crystal at the same
+temperature and the smallest gap of the frames computed, because carriers
+collect in the low-gap tail.
+
+{\changedcolor
+For \CsSnI{} two further sets complete the estimators. Five Level-1 free
+frames are strained to the mean rigid-clamp cell of all eight runs and to the
+cell of the clamp set at the cubic anneal; the first gives an elastic part of
+\SI{20 \pm 11}{meV}, in agreement with the \SI{19 \pm 7}{meV} obtained at the
+three-run cell, and the two cells differ by \SI{-4.3 \pm 0.8}{meV} on the same
+frames. One MD frame per run of the free, stress-controlled and rigidly clamped
+brackets at the operating temperature (eight each), the three runs of the
+$\gamma$ crystal held under the clamp, and two frames each of the cubic-anneal
+clamp and of the free crystal at the damp-heat temperature are relaxed with
+MACE-MH-1 + D3 (PBEsol labels; D3 as in the production MD) at the fixed mean
+cell of the frame's own run over its production window, to a largest force of
+\SI{2e-4}{\hartree\per\bohr}. Frames already computed as they are were
+preferred, so that 30 of the 31 relaxed frames have the gap of their MD frame
+as a partner. Only the atoms move: the relaxed frame keeps the thermal
+expansion and the mechanical state of its bracket, and for the rigid clamp the
+in-plane cell is the clamp itself. The cell is not relaxed, because the
+pressure offset of MACE at the UrsaMLFF cell (\SIrange{0.3}{0.6}{GPa} of
+tension in every relaxed frame) would move it away from the ensemble it is
+compared with; since every bracket is relaxed in the same way, only differences
+between relaxed frames are used. The relaxation keeps the tilt pattern of every
+frame, so that the tilt variant of each rigid-clamp run is already present in
+its MD frame, and increases the tilt amplitudes by up to about \ang{4}
+(Table~\ref{tab:si-gap-relaxed}).\par}

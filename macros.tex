@@ -1,0 +1,34 @@
+%% Shared by JCTCmain.tex and SupportingInformation.tex
+%% ----- siunitx setup --------------------------------------
+\sisetup{
+  separate-uncertainty = true,
+  range-phrase         = --,
+  range-units          = single,
+}
+%% Declare \angstrom for siunitx v3 (deprecated from built-ins)
+\DeclareSIUnit\angstrom{\textup{\AA}}
+\DeclareSIUnit\hartree{Ha}
+\DeclareSIUnit\bohr{Bohr}
+
+%% ----- Convenience macros ---------------------------------
+\newcommand{\CsSnI}{\ce{CsSnI3}}
+\newcommand{\MASnI}{\ce{MASnI3}}
+\newcommand{\FASnI}{\ce{FASnI3}}
+\newcommand{\rSCAN}{r\textsuperscript{2}SCAN}
+\newcommand{\Tc}{\ensuremath{T_\mathrm{c}}}
+\newcommand{\dTc}{\ensuremath{\Delta T_\mathrm{c}}}
+\newcommand{\Eg}{\ensuremath{E_\mathrm{g}}}
+\newcommand{\dEg}{\ensuremath{\Delta E_\mathrm{g}}}
+\newcommand{\apc}{\ensuremath{a_\mathrm{pc}}}
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[#1]}}}  % draft notes
+
+\newcommand{\TODO}[1]{\todo{#1}}  % alias used in si/configurationGeneration.tex
+
+%% Changes of 2026-10-26 (CsSnI3 band-gap results frozen) in blue for review (user). To print them
+%% black, redefine \changedcolor as \relax; blocks use {\changedcolor ...}, inline text \changed{...}.
+% 2026-11-12 (user): blue removed, only the orange \placeholder text (PBEsol values) stays coloured
+% \newcommand{\changedcolor}{\color{blue}}
+\newcommand{\changedcolor}{\relax}
+\newcommand{\changed}[1]{{\changedcolor #1}}
+% PBEsol numbers standing in for r2SCAN results not yet computed (2026-10-30); remove before submission.
+\newcommand{\placeholder}[1]{{\color{orange}#1}}
