@@ -38,8 +38,8 @@ mixtures.
     of in-plane tension; in MA and FA films it should change little under tension.
   \item The band gap of MA and FA films, from photoluminescence or absorption, should not follow their residual
     stress, measured by X-ray diffraction, by more than about \SI{15}{meV} over the range left by processing.
-  \item The yellow--black balance of \CsSnI{} should shift by about \SI{0.2}{K} per MPa of in-plane tension, so that
-    the substrate changes the conversion of black films in inert atmosphere only weakly at residual stress levels.
+  \item The yellow--black balance of \CsSnI{} should shift by only about \SI{0.2}{K} per MPa of in-plane tension, a weak
+    dependence on the substrate at residual stress levels.
 \end{enumerate}
 
 \paragraph{Idealisations.} The simulations describe an idealised film. Each cell is a periodic single crystal a few
@@ -55,14 +55,12 @@ not included.
 
 \paragraph{Extensions and vision.} These idealisations can be removed step by step. Adding oxygen and nitrogen will
 compare processing and operation in air with inert nitrogen atmospheres and give access to the first steps of Sn(II)
-oxidation. Polycrystalline cells with grain boundaries, built from cells of tens of thousands of atoms that already
-form tilt domains, will show how boundaries relieve the residual strain, pin the tilt variant that forms on cooling
-and channel iodide migration. An explicit substrate and transport layer will replace the idealised boundary
-conditions by the real interface and its mismatch of thermal expansion. This white paper is the first step toward a
-virtual process line for perovskite absorbers. With these extensions the same framework can rank process windows
+oxidation. Polycrystalline cells of tens of thousands of atoms, which already form tilt domains, will show how boundaries relieve the residual strain, pin the tilt variant that forms on cooling
+and channel iodide migration. An explicit substrate and transport layer will add the real interface and its
+mismatch of thermal expansion. With these extensions the same framework can rank process windows
 (anneal temperature, cooling rate, substrate, transport layer and atmosphere) by the band gap and lifetime they
 produce, and test compositions before they are synthesised. Within the present chemistry (Cs, MA and FA cations, tin and iodide)
 a new anneal and substrate can be assessed today: the process history, residual strain and migration barriers take a
 few days on a single GPU server, and the band gaps a similar time on a supercomputer. For manufacturers this replaces
-part of the trial and error of process tuning by a screened search; for experimentalists it provides the structural picture needed to
-interpret diffraction, photoluminescence and ion-migration measurements on strained films.
+part of the trial and error of process tuning by a screened search; for experimentalists it gives
+the structural picture behind measurements on strained films.
