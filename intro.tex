@@ -29,15 +29,18 @@ in-plane tension of tens of MPa, up to about \SI{150}{MPa} after an anneal at \S
 \SI{0.5}{\percent}.\cite{Rolston2018AEM, Zhao2017SciAdv, ref_processing_temp} Tensile films degrade faster than
 compressed ones, and the activation energy of their ion migration falls with tension.\cite{Zhao2017SciAdv,
 ref_processing_temp} A film that crosses a phase transition while clamped cannot take up the spontaneous strain of the
-transition, so the process may also change the structure in which the film ends. Measurements see these effects
-together with grain boundaries, interfaces, oxidation and moisture,\cite{ref_sn_instability} and cannot easily isolate
-the part that is due to the process.
+transition, so the process may also change the structure in which the film ends.
 
-In this white paper we separate these effects in the three tin iodides with molecular dynamics driven by UrsaMLFF, our
-machine-learned force field. We first show that the simulations follow the measured octahedral tilts of \CsSnI{},
-\MASnI{} and \FASnI{} and their changes with temperature, including the opposite stacking of the MA and FA compounds.
-We then model the coating of a film on a substrate in an idealised form, an anneal followed by cooling with the
-in-plane dimensions of the film constrained, and follow its structure to the operating temperature. With this model we
-determine how the process shifts the band gap of the film and how the residual strain affects the intrinsic routes of
-thermal degradation, iodide migration and, in \CsSnI{}, conversion to the yellow phase. We close with the insights
-these results offer for the choice of cation, anneal and substrate.
+The question we address is the one a process engineer faces before a film is made: given a composition, an anneal and
+a substrate, in which structure does the film end at its operating temperature, what is its band gap, and how fast
+does it degrade? Answering it by experiment means making and ageing films for every combination, and the
+measurements mix the effect of the process with grain boundaries, interfaces and atmosphere. Our goal is a virtual
+process line that predicts these outcomes from the process parameters, so that compositions and process windows can be
+ranked before they are tried. This white paper takes the first step for the three tin iodides, with molecular
+dynamics driven by UrsaMLFF, our machine-learned force field, and follows a film from the crystal to the device. We
+test that the simulations reproduce the measured tilts and their temperature dependence (Section~\ref{sec:wp-tilts}) and
+identify what sets the tilt pattern (Section~\ref{sec:wp-sense}). We then take a film through an idealised anneal and
+cooling on a substrate (Section~\ref{sec:wp-process}) and determine what the resulting strain does to its band gap
+(Section~\ref{sec:wp-gap}), to iodide migration (Section~\ref{sec:wp-hop}) and to the stability of black \CsSnI{}
+(Section~\ref{sec:wp-yb}). The Discussion translates the results into guidance for experiment and manufacturing and
+states what the model leaves out.

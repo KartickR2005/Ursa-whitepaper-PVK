@@ -1,0 +1,51 @@
+% =====================================================================================
+% WHITE PAPER discussion (user 2026-11-12; restructured after a colleague's review: one question, transitions, what it
+% means for experimentalists and engineers, "first step towards X"): implications, idealisations, extensions and vision.
+% No functional / DFT details.
+% =====================================================================================
+
+The results trace one chain from process to device. The cation fixes the tilt pattern; the anneal and the substrate
+leave the film under 0.2 to \SI{0.4}{\percent} in-plane tension, within the range measured in films, without changing
+that pattern; and the tension acts more on the lifetime of the film than on its band gap. Four points follow for
+experiment and manufacturing.
+
+\paragraph{Choice of cation.} A cation with hydrogen-bonding groups at both ends (FA) selects in-phase tilting, one
+anchored at a single end (MA) antiphase tilting: a criterion for anticipating the tilt pattern of new cations and
+mixtures.
+
+\paragraph{Band gap.} For the untilted hybrids the residual strain of processing shifts the gap by about \SI{10}{meV},
+less than its thermal fluctuation at the operating temperature. Shifts of several tens of meV measured on such films
+therefore point to causes other than processing strain, such as composition or carrier concentration.
+
+\paragraph{Lifetime.} Residual tension speeds up iodide migration in \CsSnI{}, by 1.2 to 1.5 times at the strain left
+by processing and about twice at \SI{1}{\percent}, while the hybrids are hardly affected. For \CsSnI{} films, processing
+that lowers the tension should slow this route of degradation: a lower anneal temperature, a substrate or transport
+layer whose thermal expansion is closer to that of the film, or a transport layer deposited hot so that it compresses
+the film on cooling, as demonstrated for CsPbI$_2$Br.\cite{ref_processing_temp}
+
+\paragraph{Black \CsSnI{}.} At the operating temperature the yellow phase is the stable one, and the residual stress of
+processing shifts the balance by only 2 to \SI{4}{meV} per formula unit. Keeping a film black therefore requires
+either in-plane strains near \SI{1}{\percent} or protection that keeps the conversion from nucleating.
+
+\paragraph{Idealisations.} The simulations describe an idealised film. Each cell is a periodic single crystal a few
+nanometres across, without grains, grain boundaries, free surfaces or interfaces with the transport layers, although
+these relieve strain, nucleate tilt domains and offer fast paths for ions. The substrate enters only through a fixed
+in-plane stress or a rigid in-plane cell; a real substrate also contracts, and the bond to the film relaxes over hours,
+so the rigid case is an upper bound of the residual strain. The films are cooled many orders of magnitude faster than in
+processing, and slow, reconstructive changes such as the conversion of black to yellow \CsSnI{} are treated through
+free energies rather than followed directly. The chemistry is
+restricted to the perovskite and its cation and iodide vacancies: oxygen, moisture, the oxidation of Sn(II) to Sn(IV),
+light and excess charge carriers, which drive the degradation of tin films in practice,\cite{ref_sn_instability} are
+not included.
+
+\paragraph{Extensions and vision.} These idealisations can be removed step by step. Adding oxygen and nitrogen will
+compare processing and operation in air with inert nitrogen atmospheres and give access to the first steps of Sn(II)
+oxidation. Polycrystalline cells with grain boundaries, built from cells of tens of thousands of atoms that already
+form tilt domains, will show how boundaries relieve the residual strain, pin the tilt variant that forms on cooling
+and channel iodide migration. An explicit substrate and transport layer will replace the idealised boundary
+conditions by the real interface and its mismatch of thermal expansion. This white paper is the first step toward a
+virtual process line for perovskite absorbers. With these extensions the same framework can rank process windows
+(anneal temperature, cooling rate, substrate, transport layer and atmosphere) by the band gap and lifetime they
+produce, and test compositions before they are synthesised. For manufacturers this replaces part of the trial and
+error of process tuning by a screened search; for experimentalists it provides the structural picture needed to
+interpret diffraction, photoluminescence and ion-migration measurements on strained films.

@@ -14,8 +14,13 @@
 \usepackage{siunitx}
 \usepackage{amsmath}
 \usepackage{xcolor}
-\usepackage[articletitle=true]{achemso}   % achemso.sty: natbib superscript citations
+\usepackage[articletitle=false]{achemso}   % achemso.sty: natbib superscript citations, compact references
 \usepackage{caption}
+\usepackage[compact]{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\definecolor{boxbg}{HTML}{F4F6FA}
+\definecolor{boxframe}{HTML}{2A4F8A}
 \captionsetup{font=small, labelfont=bf}
 \usepackage[hidelinks]{hyperref}
 \setlength{\parskip}{2pt}
@@ -26,13 +31,17 @@
 \graphicspath{{figures/}}
 
 \title{\textbf{Tin Iodide Perovskites under Processing Strain: Why Tilts Differ, and How They Set Band Gap and Iodide Migration}}
-\author{Kartick Ramakrishnan$^{a}$, Shashikant Kumar$^{a}$, Swarnava Ghosh$^{b}$ and Ray$^{a}$\\[2pt]
+\author{Kartick Ramakrishnan$^{a}$, Shashikant Kumar$^{a}$, Swarnava Ghosh$^{b}$ and Xiangyun Lei$^{a}$\\[2pt]
   \small $^{a}$Ursa Simulation Inc, Atlanta, Georgia, USA \quad $^{b}$Oak Ridge National Laboratory, Tennessee, USA\\
-  \small ray@ursasimulation.com}
+  \small ray.lei@ursasimulation.com}
 \date{White paper, November 2026}
 
 \begin{document}
 \maketitle
+\thispagestyle{empty}
+\input{onepager}
+\clearpage
+\setcounter{page}{1}
 
 \section{Introduction}
 \input{intro}
@@ -40,7 +49,10 @@
 \section{Results}
 \input{results}
 
-\bibliographystyle{achemso}
+\section{Discussion}
+\input{discussion}
+
+% bibliography style set by the achemso package (a second \bibliographystyle breaks BibTeX)
 \bibliography{JCTC}
 
 \end{document}

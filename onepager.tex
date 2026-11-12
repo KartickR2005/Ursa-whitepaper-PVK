@@ -1,0 +1,53 @@
+% =====================================================================================
+% WHITE PAPER one-page summary in a box (user 2026-11-12: "put the one-page idea in a box, in the first page; that page
+% count is separate"). Numbers as in results.tex / discussion.tex. No functional / DFT details.
+% =====================================================================================
+\begin{tcolorbox}[colback=boxbg, colframe=boxframe, boxrule=0.8pt, arc=2pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title={\textbf{At a glance}}, fonttitle=\large, coltitle=white]
+\small
+\textbf{The question.} Before a tin perovskite film is made, can we predict, from its composition, anneal and
+substrate, the structure it ends in at operating temperature, its band gap and how fast it degrades? Today this is
+answered by making and ageing films for every combination, and the measurements mix the process with grain boundaries,
+interfaces and atmosphere.
+
+\textbf{Why it matters.} The absorber of a device is a polycrystalline film bonded to its substrate during the anneal.
+On cooling the substrate leaves it under 50 to \SI{150}{MPa} of in-plane tension, which is known to speed up
+degradation. In the tin iodides \CsSnI{}, \MASnI{} and \FASnI{} the octahedral tilts, which set the band gap, change
+close to device temperatures, and black \CsSnI{} competes with a yellow phase.
+
+\textbf{What we did.} With UrsaMLFF, our machine-learned force field, we followed films of the three compounds from the
+crystal through an idealised anneal and cooling on a substrate to the operating temperature, and computed the band
+gap, the barrier of iodide migration and the stability of black \CsSnI{}.
+
+\textbf{What we found.}
+\begin{itemize}[leftmargin=12pt, itemsep=1pt, topsep=2pt]
+  \item \textbf{The simulations reproduce the measured structures:} the tilt systems of all three compounds, tilt angles
+    within \ang{0.3}, and the tilt transitions of the hybrids within the measured ranges.
+  \item \textbf{The cation sets the tilt pattern} through the shape of its cage: FA (both ends hydrogen-bonding) prefers
+    in-phase tilts by \SI{31}{meV} per formula unit, MA (one anchored end) antiphase tilts by 15 to \SI{17}{meV}.
+  \item \textbf{Processing leaves 0.2 to 0.4\,\% in-plane tension} (50 to \SI{77}{MPa}, as measured in films)
+    and does not change the tilt pattern of any compound.
+  \item \textbf{The band gap barely moves:} the hybrids open by 8 to \SI{15}{meV}, purely elastically, less than the
+    35 to \SI{67}{meV} by which the gap fluctuates at operating temperature.
+  \item \textbf{Tension speeds up iodide migration in \CsSnI{}}: hops become 1.2 to 1.5 times faster at the residual
+    strain and about twice as fast at \SI{1}{\percent}; the hybrids are hardly affected.
+  \item \textbf{Black \CsSnI{} is not stable at operating temperature:} yellow is lower by 11 to \SI{19}{meV} per formula
+    unit, residual stress shifts this by only 2 to \SI{4}{meV}, and about \SI{1}{\percent} strain would be needed to
+    reverse it. Measured volumes and the yellow-to-black conversion on heating agree with this picture.
+\end{itemize}
+
+\textbf{What it means for experiment and manufacturing.}
+\begin{itemize}[leftmargin=12pt, itemsep=1pt, topsep=2pt]
+  \item For \CsSnI{} films, lower the residual tension (lower anneal temperature, substrate or transport layer with
+    matched thermal expansion, hot-deposited transport layer) to slow degradation by iodide migration.
+  \item Band-gap shifts of tens of meV in hybrid films are not caused by processing strain; look to composition or
+    carrier concentration.
+  \item Keeping \CsSnI{} black needs strain near \SI{1}{\percent} or protection against nucleation of the yellow phase.
+  \item The cage-shape rule anticipates the tilt pattern of new cations and cation mixtures.
+\end{itemize}
+
+\textbf{Where this leads.} This is the first step toward a virtual process line. Once oxygen and nitrogen
+atmospheres, polycrystalline films with grain boundaries and an explicit substrate are added, the same framework can
+rank anneal temperature, cooling rate, substrate, transport layer and atmosphere by the band gap and lifetime they produce, before
+a film is made.
+\end{tcolorbox}
