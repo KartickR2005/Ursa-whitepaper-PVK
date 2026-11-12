@@ -1,111 +1,43 @@
 % =====================================================================================
-% INTRODUCTION. Rules (JPCC/Chem. Mater.): relate to prior work, state purpose and
-% hypothesis, do NOT summarise the present findings. Numbers only from the cited papers or
-% the project plan (PaperData/plan-docs/Sn_perovskite_project_handoff.md, Secs. 3-5).
-% 2026-10-29 (user): restructured around the FA/MA tilt-sense question (experimental tilt table moved here from the
-% results) and the effect of manufacturing (anneal and cooling under the substrate) on the operating band gap.
-% Previous version: git history.
+% WHITE PAPER introduction (user 2026-11-12): for experimentalists and application engineers. Device and processing
+% context first; then what the white paper shows (tilts vs experiment, idealised substrate processing, effect on the band
+% gap and on thermal degradation, insights). No model, functional or DFT details. Full paper: overleaf repo.
 % =====================================================================================
 
-{\changedcolor
-Hybrid and all-inorganic halide perovskites are leading candidates for next-generation photovoltaic absorbers, with
-certified single-junction power-conversion efficiencies above \SI{26}{\percent}.\cite{ref_efficiency} The best absorbers
-still contain lead, whose toxicity is an obstacle to commercial deployment.\cite{ref_pb_toxicity} Tin halide perovskites,
-the all-inorganic \CsSnI{} and the hybrid methylammonium (MA) and formamidinium (FA) compounds \MASnI{} and \FASnI{}, are
-the main lead-free alternatives, combining band gaps of \SIrange{1.2}{1.4}{eV} with high carrier
-mobilities.\cite{pitaro2022tin, stoumpos2013semiconducting} They are also chemically fragile and strongly polymorphic, and
-their electronic structure is tightly coupled to their crystal structure.\cite{ref_sn_instability, huang2013electronic}
+Halide perovskite solar cells have reached certified single-junction efficiencies above
+\SI{26}{\percent}.\cite{ref_efficiency} In a device the absorber is a polycrystalline film, less than a micrometre
+thick, sandwiched between an electron- and a hole-transport layer on a glass substrate coated with a transparent
+conducting oxide. The tin iodides \CsSnI{}, \MASnI{} and \FASnI{} (MA: methylammonium, FA: formamidinium) are the main
+lead-free absorbers, with band gaps of 1.2 to \SI{1.4}{eV}.\cite{pitaro2022tin, stoumpos2013semiconducting} For these
+films, the quantities that matter in a device are the band gap at the operating temperature, the crystal phase the film
+is in, and how long it stays there. All three depend on the same structural feature, the cooperative tilt of the
+SnI$_6$ octahedra, which diffraction detects through superlattice reflections and which changes the gap through the
+overlap of the tin and iodine orbitals.\cite{huang2013electronic}
 
-The structural motif that connects their phases is the cooperative tilting of the SnI$_6$ octahedra. Below the cubic
-phase all three compounds tilt their octahedra about one pseudo-cubic axis by 6 to \ang{9} (Table~\ref{tab:expt-tilt}),
-but they differ in how the tilt is stacked along that axis. In \CsSnI{} and \FASnI{} successive layers rotate in the
-same sense (in-phase, $a^0a^0c^+$, $P4/mbm$); in \MASnI{} the sense alternates from layer to layer (antiphase,
-$a^0a^0c^-$, $I4cm$ or $I4/mcm$), which doubles the cell along the tilt
-axis.\cite{Chung2012JACS, Kahmann2020ACSEL, stoumpos2013semiconducting} The lead iodides and their mixtures follow the
-same rule,\cite{Fabini2016Angew, laven2023rotational, Hainer2025NatCommun, Dubajic2025NatNano} so the stacking is set by
-the A-site cation rather than by the metal. The inorganic framework itself barely distinguishes the two senses: in DFT,
-the in-phase and antiphase tilts of CsPbI$_3$ and \CsSnI{} differ by about \SI{1}{meV} per formula
-unit.\cite{Klarbring2019PRB} Several explanations have been proposed, a general preference of halide perovskites for
-in-phase tilts,\cite{Young2016JPCL} hydrogen bonds of MA that drive the antiphase mode,\cite{Lee2016ChemMater} an FA
-arrangement that templates the in-phase tilt\cite{Senno2021PCCP} and the near-degeneracy of the two
-modes,\cite{Hainer2025NatCommun} but none accounts for both cations. It is also not known whether the sense is fixed by
-the static energetics of the cation in its cage or emerges only from the thermal ensemble and from the path along which
-the crystal is cooled.
-}
+The tilts change close to device temperatures. \CsSnI{} passes from its tetragonal $\beta$ to its orthorhombic $\gamma$
+phase at \SI{362}{K}, a few kelvin above the \SI{85}{\celsius} of damp-heat qualification, and at room temperature its
+black perovskite phase is metastable against a denser yellow polymorph.\cite{Chung2012JACS} \MASnI{} orders its tilt
+near \SI{275}{K},\cite{Yamada2011BCSJ, Takahashi2011Dalton, Parrott2016JPCL, stoumpos2013semiconducting} \FASnI{}
+between 225 and \SI{250}{K}.\cite{schueller2018crystal} The compounds also differ in how successive layers of octahedra
+tilt: in the same sense in \CsSnI{} and \FASnI{}, in alternating senses in
+\MASnI{}.\cite{Chung2012JACS, Kahmann2020ACSEL, stoumpos2013semiconducting}
 
-\input{tables/tab_expt_tilt}
+Manufacturing adds a further variable. The film is coated from solution, crystallised by a thermal anneal and cooled
+to room temperature while bonded to its substrate.\cite{StrainReview, yang2022strain} The perovskite contracts several
+times more than glass or indium tin oxide on cooling,\cite{Steele2019Science} so the substrate leaves it under an
+in-plane tension of tens of MPa, up to about \SI{150}{MPa} after an anneal at \SI{160}{\celsius}, and strains of about
+\SI{0.5}{\percent}.\cite{Rolston2018AEM, Zhao2017SciAdv, ref_processing_temp} Tensile films degrade faster than
+compressed ones, and the activation energy of their ion migration falls with tension.\cite{Zhao2017SciAdv,
+ref_processing_temp} A film that crosses a phase transition while clamped cannot take up the spontaneous strain of the
+transition, so the process may also change the structure in which the film ends. Measurements see these effects
+together with grain boundaries, interfaces, oxidation and moisture,\cite{ref_sn_instability} and cannot easily isolate
+the part that is due to the process.
 
-{\changedcolor
-Finite-temperature theory has not resolved these questions for the tin compounds. Molecular dynamics (MD) with
-machine-learned force fields now reproduces the phase sequences of halide
-perovskites,\cite{Jinnouchi2019PRL, fransson2023phase, Liang2025ChemMater, Ebrahimi2025arXiv} and anharmonic lattice
-dynamics describes the stabilisation of their high-temperature phases.\cite{monacelli2023thermodynamics, daSilva2015PRB}
-Predicted transition temperatures exist almost only for \CsSnI{}, where they span more than
-\SI{100}{K};\cite{Ebrahimi2025arXiv, monacelli2023thermodynamics, daSilva2015PRB} to our knowledge there is no
-finite-temperature simulation of the phase sequence of \MASnI{} and little for \FASnI{}. Studies of orientational
-effects have used ordered or frozen cation arrangements rather than thermal
-ensembles.\cite{maheshwari2019relation, laven2023rotational}
-
-We address the tilt sense with MD driven by a machine-learned force field trained on
-meta-GGA (\rSCAN{}) density functional theory (DFT) labels, which we first validate against the measured phase sequences
-and tilt angles. We then separate the static from the thermal contributions: the energy difference between the two tilt
-senses is computed for many cation arrangements in fixed tilted frameworks and related to the geometry of the A-site
-cage, whose upper and lower faces share the same long axis under in-phase tilting but are crossed under antiphase
-tilting, and the cation orientations are followed in the MD. We test the hypothesis that this cage shape, together with
-the number and placement of the hydrogen-bonding groups of the cation, accounts for the opposite stacking in FA and MA
-compounds, and we examine how the cooling path decides the tilt sense where the preference is weak.
-
-The same structural sensitivity separates the band gap of a device absorber from the idealised gap of a free,
-equilibrated crystal. A film is deposited and annealed at an elevated temperature, where it crystallises on and bonds to
-its substrate, and is then cooled to its operating temperature while the substrate restricts its in-plane dimensions.
-The mismatch of thermal expansion leaves residual tensile stresses of tens of MPa, up to about \SI{150}{MPa} for an anneal
-at \SI{160}{\celsius}, and in-plane strains of about
-\SI{0.5}{\percent}.\cite{Rolston2018AEM, Zhao2017SciAdv, ref_processing_temp, StrainReview} The direct elastic effect of
-such a strain on the gap is small, but a film that crosses a structural transition while clamped cannot develop the
-spontaneous strain of order \SI{1}{\percent} that accompanies it.\cite{Chung2012JACS} Clamping then competes with the
-transition: it can shift the transition temperature, select or frustrate tilt variants and bias the cation orientations,
-and the band gap follows the structure. Through the anneal temperature and the cooling under the constraint of the
-substrate, the manufacturing process can therefore shift the operating band gap away from its idealised value.
-
-We use the same simulation framework to determine what happens to the band gap when a film is cooled during
-manufacturing: the \rSCAN{} force field gives the structure of the film, and DFT its band gap. The three compounds place the anneal and the operating temperature at
-different positions relative to their transitions. \CsSnI{}, annealed near \SI{373}{K} in its tetragonal $\beta$ phase,
-crosses the $\gamma\leftrightarrow\beta$ transition at \SI{362}{K} on cooling, only a few kelvin above the
-\SI{358}{K} damp-heat qualification test.\cite{Chung2012JACS} \MASnI{} is annealed and operated in its cubic phase, a few
-tens of kelvin above its tilt transition near
-\SI{275}{K}.\cite{Yamada2011BCSJ, Takahashi2011Dalton, Parrott2016JPCL, stoumpos2013semiconducting} \FASnI{}, cubic
-above 225 to \SI{250}{K},\cite{schueller2018crystal} crosses no transition between anneal and operation and isolates
-the effect of clamping alone. For each compound we simulate the film free-standing, under an in-plane tension of
-\SI{50}{MPa} and rigidly clamped in-plane at the anneal, with the simulation temperatures anchored to the model's own
-transition temperatures so that anneal and operation lie in the same phase and at the same distance from \Tc{} as in a
-device, and we compute band gaps with DFT on MD frames chosen by stratified sampling. Every headline quantity is a
-difference between matched states, the shift of a transition temperature \dTc{} or of a band gap \dEg{}, which cancels
-systematic errors of absolute values such as the missing spin--orbit coupling. We also test whether the orientational
-response to clamping orders \MASnI{} $>$ \FASnI{} $>$ \CsSnI{} ($=0$).
-
-The residual strain also bears on the stability of the film. Tensile lead halide films degrade faster than
-compressed ones, and the activation energy of their ion migration falls with tensile
-strain;\cite{Zhao2017SciAdv, ref_processing_temp} the mobile species are the halide ions, which move through
-vacancies. \CsSnI{} has a second, intrinsic route: its black perovskite phase is metastable at ambient temperature
-against a yellow non-perovskite polymorph of higher density,\cite{Chung2012JACS} so that a stress which changes the
-volume shifts the balance between the two. Measurements cannot easily separate these intrinsic effects of strain from
-oxidation, moisture and the chemistry of the interfaces,\cite{ref_sn_instability} and for the tin iodides the
-dependence of iodide migration on strain has not been established. We therefore compute, without oxygen or other
-extrinsic species, the free-energy barrier of a vacancy-mediated iodide hop as a function of in-plane strain in the
-three compounds at their operating temperatures, and the free-energy difference between yellow and black \CsSnI{}
-under stress. We test whether the residual tension of a clamped film accelerates iodide migration, and whether the
-response differs between the inorganic and the hybrid compounds as their tilts do.
-
-These questions require a force field that is accurate across phases, strains and cation orientations, yet fast enough
-for nanoseconds of MD in cells of thousands of atoms. We select the DFT training structures from a large MD pool by their
-coverage of distinct atomic environments in a space of Gaussian multipole descriptors,\cite{Lei2019GMP, Lei2022GMP} which
-captures the rare configurations near transitions and in strained cells at a fraction of the cost of random selection,
-and we use equivariant message-passing models (MACE\cite{Batatia2022MACE}) to validate a faster in-house potential that
-carries the production simulations.
-
-The Computational Methods describe the DFT settings, the selection of the training structures, the fine-tuning of the
-force fields, the MD protocols and the identification of the phases. The Results and Discussion justify the choice of
-the exchange--correlation functional, compare the simulated phase sequences and tilt systems with experiment, analyse why
-the cation sets the tilt sense, apply the model to films cooled under the constraint of a substrate and to their band
-gaps, and examine how the residual strain changes iodide migration and the stability of black \CsSnI{}.
-}
+In this white paper we separate these effects in the three tin iodides with molecular dynamics driven by UrsaMLFF, our
+machine-learned force field. We first show that the simulations follow the measured octahedral tilts of \CsSnI{},
+\MASnI{} and \FASnI{} and their changes with temperature, including the opposite stacking of the MA and FA compounds.
+We then model the coating of a film on a substrate in an idealised form, an anneal followed by cooling with the
+in-plane dimensions of the film constrained, and follow its structure to the operating temperature. With this model we
+determine how the process shifts the band gap of the film and how the residual strain affects the intrinsic routes of
+thermal degradation, iodide migration and, in \CsSnI{}, conversion to the yellow phase. We close with the insights
+these results offer for the choice of cation, anneal and substrate.

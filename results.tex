@@ -1,477 +1,189 @@
 % =====================================================================================
-% RESULTS AND DISCUSSION.
-% SOURCES (PaperData = /home/Ubuntu/PaperRuns/PaperData):
-%   NEP errors ........... dataForSubmission/README.md, Task3_MLFF_scratch/comparison.md
-%   phase energetics ..... Task4_PhaseTransition/README.md (phase_relax), converted 1 meV = 0.03675 mHa
-%   out-of-distribution .. Task4_PhaseTransition/committee_md.md, dft_ood/ood_score.md
-%   T_c, a_pc ............ Task4_PhaseTransition/size_compare.md, d3_compare.md, volume_compare.md,
-%                          r2scan_compare.md, exp_compare.md
-%   stress, tilts ........ Task4_PhaseTransition/stress_summary.md, stress_A_*/analysis/*.npz
-%                          (paper_fig_ladder.py makes figures/fig_ladder.pdf)
-%   Delta T_c ............ Task4_PhaseTransition/tc_clamped.md
-%   DFT batch 1 .......... Task4_PhaseTransition/dft_gap/batch1/manifest.csv
-%   CsSnI3 gaps (FROZEN, user 2026-10-26: dft_gap/bandgap_CsSnI3, batches 1-3, 122 frames)
-%                          dft_gap/cs_final/gap_estimate.md (levels 1 and 2, scatter; gap_estimate.py with GAP_OUT)
-%                          dft_gap/cs_final/batch3_gap.md (paired clamp cells, relaxed frames, rigid-clamp split,
-%                          geometry fit; cs_batch3_gap.py), dft_gap/cs_final/energy_check_cs.json (UrsaMLFF
-%                          vs DFT, 56 MD frames); MASnI3 / FASnI3 gaps: dft_gap/gap_estimate.md
-%   HYBRIDS (2026-10-27, UrsaMLFF after the refinement of the training data = ursamlff-v2 balanced s1, 1000 epochs;
-%   user: the paper presents one force field, the refinement only in the Methods):
-%                          Task4_PhaseTransition/npt_v2_check/stress_v2s1/ (make_stress_v2s1.py, stress_plan.json,
-%                          stress_summary.md, analysis/*.npz), band gaps dft_gap_v2s1_outputs (Frontier, 100 frames)
-%                          -> stress_v2s1/dft_gap_v2s1_results/gap_estimate.md, energy_check.md;
-%                          Tc of the potential: npt_v2_check/v2_tc.md (s1k_size_mafa2304_MA/_FA)
+% WHITE PAPER results (user 2026-11-12): tilts vs experiment, why MA and FA tilt oppositely, idealised processing model,
+% band gap of the processed film, residual strain and thermal degradation, insights. Condensed from the full paper
+% (PaperRuns/overleaf results.tex); numbers from there, energies converted to meV (1 mHa = 27.2 meV). No functional, DFT
+% or force-field-training details. Figures: PaperData/paper_figs/wp_figures.py.
+% CsSnI3 band gaps: preliminary (earlier calculation set) until the final CsSnI3 gaps return.
 % =====================================================================================
 
-% \subsection{Accuracy of the force field beyond the held-out set}
-% \label{sec:res-nep}
+\subsection{The simulations follow the measured tilts}
+Each compound was cooled from its cubic phase at \SI{0.25}{K/ps} and heated back at the same rate, three times, in
+cells of about 2000 atoms (\SI{4.5}{nm} across); cells of \num{20000} atoms give the same results within \SI{15}{K}.
+Figure~\ref{fig:wp-tilts} follows the tilt along the ramps, and Table~\ref{tab:wp-tilts} compares tilt systems, tilt
+angles and transition temperatures with the measured structures.
 
-% The held-out errors of the six potentials are given in Table~\ref{tab:holdout}. Two further tests
-% probe the configurations that matter for the transitions.
-
-% First, we relaxed the $Pnma$, $P4/mbm$, $I4/mcm$ and cubic structures of \CsSnI{} in 20-atom cells
-% with DFT and with the force fields. DFT places the tilted phases \SI{2.25}{\milli\hartree}
-% ($Pnma$), \SI{1.38}{\milli\hartree} ($P4/mbm$) and \SI{1.37}{\milli\hartree} ($I4/mcm$) per
-% formula unit below the cubic phase. The PBEsol UrsaMLFF under-stabilises them by
-% \SIrange{0.3}{0.6}{\milli\hartree} per formula unit, while both MACE models agree with DFT to within
-% \SI{0.07}{\milli\hartree} per formula unit. An under-stabilised tilt lowers the transition
-% temperatures of the model, and we return to this below.
-
-% Second, we asked whether the MD of UrsaMLFF stays within its training data. The forces of
-% UrsaMLFF and of the MACE models on frames from UrsaMLFF's own runs differ by 0.8 to 1.0 times
-% their difference on the held-out set for \CsSnI{}, but by 1.5 to 1.6 times for \MASnI{} and 2.9
-% to 3.3 times for \FASnI{}, while on frames from MACE runs the ratio stays at or below one. DFT
-% calculations on 21 such frames confirm it (Table~\ref{tab:nep}): on configurations of its own
-% hybrid MD, UrsaMLFF underestimates the energy by \SI{1.4e-3}{\hartree} (\MASnI{}) and
-% \SI{2.3e-3}{\hartree} per atom (\FASnI{}), and its force error rises to about three and four
-% times the held-out value, with the largest errors on N. The energy error varies much less than it
-% is large (\SIrange{-0.5e-3}{-1.7e-3}{\hartree} per atom for \MASnI{},
-% \SIrange{-1.9e-3}{-2.6e-3}{\hartree} for \FASnI{}), so it shifts the energy scale more than it
-% distorts the energy landscape. Still, the MD of the hybrids with UrsaMLFF explores configurations
-% of the molecular cations, mainly of the N--H groups, that its labels do not pin down. In one of the
-% three rigid-clamp runs of \FASnI{} the molecules decomposed after \SI{141}{ps}, and the run was
-% stopped by the engine's temperature guard; it is excluded. In all other runs of the clamping study
-% the molecules are intact in the final frame. Three measures limit the consequences. The results
-% are differences between ensembles of the same model. Every DFT band-gap calculation (section
-% \emph{Band-gap shifts}) also tests the energy of UrsaMLFF on a production frame
-% of the bracket in question. And the hybrid results are interpreted with this error in mind.
-
-% \begin{table}[htbp]
-%   \centering
-%   \caption{Errors against PBEsol DFT on the held-out hybrid structures and on 192-atom frames taken
-%     from the heating and cooling MD of UrsaMLFF with D3 (own MD), recomputed with DFT and evaluated
-%     without D3. Bias: mean energy error per atom.}
-%   \label{tab:nep}
-%   \resizebox{\linewidth}{!}{%
-%   \begin{tabular}{lllcccc}
-%     \toprule
-%     compound & structures & model & bias (\si{\hartree}/atom) & $E$ (\si{\hartree}/atom) & $F$ (\si{\hartree\per\bohr}) & $\sigma$ (\si{\hartree\per\bohr\cubed}) \\
-%     \midrule
-%     \MASnI{} & held out (46) & UrsaMLFF & \num{2.4e-5} & \num{4.1e-5} & \num{1.13e-3} & \num{1.4e-6} \\
-%              &               & MACE-MH-1 & \num{-1.7e-5} & \num{1.8e-5} & \num{1.8e-4} & \num{2.3e-6} \\
-%              & own MD (11)   & UrsaMLFF & \num{-1.38e-3} & \num{1.42e-3} & \num{3.15e-3} & \num{5.4e-6} \\
-%              &               & MACE-MH-1 & \num{-2.0e-4} & \num{2.1e-4} & \num{9.4e-4} & \num{1.5e-6} \\
-%     \midrule
-%     \FASnI{} & held out (35) & UrsaMLFF & \num{4.6e-5} & \num{7.3e-5} & \num{1.27e-3} & \num{2.3e-6} \\
-%              &               & MACE-MH-1 & \num{4.1e-5} & \num{4.6e-5} & \num{1.8e-4} & \num{1.8e-6} \\
-%              & own MD (10)   & UrsaMLFF & \num{-2.29e-3} & \num{2.30e-3} & \num{5.25e-3} & \num{8.4e-6} \\
-%              &               & MACE-MH-1 & \num{-1.2e-4} & \num{1.3e-4} & \num{8.0e-4} & \num{1.1e-6} \\
-%     \bottomrule
-%   \end{tabular}}
-% \end{table}
-
-\subsection{\protect\changed{Choice of the exchange--correlation functional}}
-\label{sec:res-functional}
-
-{\changedcolor
-As described in the Computational Methods, we trained UrsaMLFF on DFT labels from both the GGA functional PBEsol and the
-meta-GGA functional \rSCAN{}. Table~\ref{tab:xc} compares the two potentials, cooled and reheated at \SI{0.25}{K/ps},
-with the experimental tilt systems and transition temperatures of Table~\ref{tab:expt-tilt}. The \rSCAN{} potential
-reproduces the pseudo-cubic lattice constants to within 0.4 to \SI{1.0}{\percent} of experiment, whereas PBEsol
-underestimates them by 2.0 to \SI{2.6}{\percent}. On cooling, the \rSCAN{} potential orders \MASnI{} in the antiphase
-tilt of the experimental tetragonal phase, with an amplitude of \ang{8.5} at \SI{200}{K} against \ang{8.6} measured.
-With PBEsol the antiphase tilt of \MASnI{} remains weak, 1.4 to \ang{4.5} at \SI{200}{K}, and in most runs it stays
-below the tilt-order threshold of Table~\ref{tab:phaseid}; the free energies of the tilt sense show why (Origin of the
-tilt sense). Both potentials reproduce the in-phase tilt of \FASnI{},
-\ang{5.9} (\rSCAN{}) and \ang{6.4} (PBEsol) at \SI{200}{K} against \ang{6.3}, and the sequence $a^0a^0c^+$,
-$a^-a^-c^+$ of \CsSnI{}.
-}
-
-\input{tables/tab_xc}
-
-{\changedcolor
-The transition temperatures do not favour one functional throughout. For the hybrids, the \rSCAN{} potential places
-the loss of tilt order of \MASnI{} at \SI{290 \pm 6}{K} on heating and \SI{260 \pm 6}{K} on cooling (nine runs), on
-either side of the measured \SI{275}{K}, and that of \FASnI{} at \SI{247 \pm 2}{K} on cooling, within the measured 225
-to \SI{255}{K}, whereas PBEsol places that of \FASnI{} 10 to \SI{17}{K} above the measured
-range. For \CsSnI{}, the \rSCAN{} potential places both transitions 34 to \SI{56}{K} below experiment, while PBEsol
-places them 9 to \SI{29}{K} above it. Neither potential forms the low-temperature phase of \MASnI{} near \SI{110}{K}
-on cooling, at any rate, and also not when the crystal is cooled again after being heated from that phase into the
-cubic phase. The phase itself persists in the model: a crystal prepared in the ordered low-temperature structure
-($a^-a^-c^+$) keeps its second tilt on heating up to \SI{190 \pm 3}{K} with \rSCAN{} and \SI{208 \pm 2}{K} with PBEsol
-(Table~\ref{tab:xc}), and between 100 and \SI{160}{K} the ordered and the tetragonal structures both persist for
-\SI{1.5}{ns}. Held at 170 and \SI{180}{K}, the ordered structure turns tetragonal within 0.1 to \SI{0.6}{ns}, so on
-nanosecond time scales the transition lies between 160 and \SI{170}{K}, against \SI{114}{K} measured (Supporting
-Information). The phase is missing on cooling because it does not nucleate: it requires a cooperative reorientation of
-the MA cations that does not occur on the simulated time scales. The second in-phase tilt that PBEsol develops in \FASnI{} below about \SI{140}{K} has no counterpart in
-the experimental low-temperature phase, which instead modulates the tilt from layer to layer, a modulation the \rSCAN{}
-potential reproduces below \SI{133 \pm 3}{K}. Because the \rSCAN{}
-potential reproduces the lattice constants, the tilt systems of all three compounds and the tilt-ordering
-temperatures of the hybrids, the results on the free crystals below use the \rSCAN{} potential. The PBEsol results,
-and an earlier comparison of the two label sets at \SI{2}{K/ps}, are given in the Supporting Information.
-}
-
-
-\subsection{\protect\changed{Octahedral tilt patterns}}
-\label{sec:res-tilt}
-% Sources (2026-10-29): experiment: PaperData/Task4_PhaseTransition/expt_cifs (COD), paper_figs/cif_tiltmaps.py;
-% simulations (v2r2c, 0.25 K/ps): npt_v2_check x12 (CsSnI3 2000), x5 (hybrids 2304), x16 (20k cells, MASnI3 heating from
-% the in-phase crystal), reduced in red/ (reduce_pd.py); tilt angles: make_tiltmap_r025.py -> tiltmap_data.py ->
-% tiltmap_r025/; tables: paper_figs/tab_tilt025.py (Table 6), tab_xc.py (Table 5); figure: paper_figs/fig_tiltpatterns.py.
-{\changedcolor
-Figure~\ref{fig:tilt-expt} shows the deposited structures of Table~\ref{tab:expt-tilt}, analysed with the code used
-below for the simulations. In-phase stacking repeats the tilt pattern from layer to layer; antiphase stacking inverts it.
-On further cooling \CsSnI{} adds antiphase tilts about the other two axes ($a^-a^-c^+$, $Pnma$), and \FASnI{} doubles
-$c$ with layers tilted alternately by \ang{11.6} and \ang{3.7} ($P4bm$).
-}
-
-\begin{figure}[htbp]
+\begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig_tiltpatterns_expt.pdf}
-  \caption{\changed{Tilt patterns of the deposited structures of \CsSnI{},\cite{Chung2012JACS}
-    \MASnI{}\cite{stoumpos2013semiconducting, Takahashi2011Dalton} and \FASnI{}\cite{Kahmann2020ACSEL} (COD 4117958,
-    4117959, 4335636, 7015449, 4517852, 4517853). Left: phase sequences; grey bands: reported transition temperatures;
-    triangles: temperatures of the structures shown. Right: two consecutive layers perpendicular to the tilt axis. Each
-    square is an SnI$_6$ octahedron drawn through its four equatorial I atoms and coloured by its rotation about the tilt
-    axis; in-phase tilting repeats the pattern from layer to layer, antiphase tilting inverts it. Titles: tilt
-    amplitudes about the three pseudo-cubic axes ($+$ in-phase, $-$ antiphase, 0 below \ang{2}); below each map: rms
-    tilt of the layer.}}
-  \label{fig:tilt-expt}
+  \includegraphics[width=0.74\linewidth]{wp_tiltpatterns.pdf}
+  \caption{Octahedral tilts on cooling (blue) and heating (red) at \SI{0.25}{K/ps}. Left: tilt correlation of
+    neighbouring octahedra about the main tilt axis (thick) and the other two axes (thin), mean of three runs; $+$
+    in-phase, $-$ antiphase; grey bands: measured transitions; orange: \MASnI{} heated from an in-phase crystal. Right:
+    two successive layers of octahedra in the ordered phases, each square coloured by its rotation about the tilt axis;
+    in-phase stacking repeats the pattern, antiphase stacking inverts it.}
+  \label{fig:wp-tilts}
 \end{figure}
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_tiltpatterns_r2scan.pdf}
-  \caption{\changed{Tilt patterns with the \rSCAN{} potential at \SI{0.25}{K/ps} (\CsSnI{} 2000 atoms, hybrids 2304).
-    Left: nearest-neighbour tilt correlation about the main tilt axis (thick) and the other two axes (thin), mean of three
-    runs, on cooling from the cubic phase (blue) and on heating the cooled crystal (red); orange: \MASnI{} heated from an
-    in-phase ($a^-a^-c^+$) crystal at \SI{50}{K}; $+$ in-phase, $-$ antiphase; grey bands: experimental transitions.
-    Right: tilt maps of one cooling run at the model temperatures of Table~\ref{tab:tilt025}, positions averaged over
-    \SI{14}{ps}, drawn as in Figure~\ref{fig:tilt-expt}; titles: experimental structure compared, model temperature and
-    tilt amplitudes about the three axes.}}
-  \label{fig:tilt-r2scan}
-\end{figure}
+The simulations form the experimental tilt systems. \CsSnI{} tilts in-phase about one axis ($a^0a^0c^+$, $\beta$)
+and then adds antiphase tilts about the other two ($a^-a^-c^+$, $\gamma$); \FASnI{} tilts in-phase and \MASnI{}
+antiphase ($a^0a^0c^-$) in every run. The single-tilt angles agree with the measured ones to within \ang{0.3}. Below
+about \SI{130}{K} \FASnI{} develops the layered tilt of its low-temperature structure, with successive layers tilted by
+\ang{10.9} and \ang{4.9} at \SI{110}{K} against \ang{11.6} and \ang{3.7} measured at \SI{100}{K}. The tilt ordering of
+the hybrids falls within the measured ranges, while both transitions of \CsSnI{} lie 40 to \SI{55}{K} below the
+measured ones; the processing simulations below therefore place every temperature relative to the compound's own
+transition. The antiphase tilt of \MASnI{} does not depend on the thermal history: a crystal prepared with in-phase
+tilts and heated converts to antiphase at \SI{190}{K}.
 
-{\changedcolor
-
-Each compound is cooled from the cubic phase at \SI{0.25}{K/ps} and heated back at the same rate, three times in cells
-of 2000 (\CsSnI{}) and 2304 atoms (hybrids) (Computational Methods). Phases and transitions are assigned with the criteria of Table~\ref{tab:phaseid}. Figure~\ref{fig:tilt-r2scan} shows the tilt
-correlation along the ramps and tilt maps of the ordered phases, and Table~\ref{tab:tilt025} compares the tilt systems
-and angles with the experimental structures at the same distance below the transition.
-
-The potential forms the experimental tilt systems. \CsSnI{} orders as $a^0a^0c^+$ and then as $a^-a^-c^+$, \FASnI{} as
-$a^0a^0c^+$, and every \MASnI{} run as $a^0a^0c^-$, with successive layers inverting the pattern as in the experimental
-structures. The single-tilt angles agree with experiment to within \ang{0.3}: \ang{-8.5} and \ang{-9.6} against \ang{-8.6}
-and \ang{-9.3} for the two tetragonal structures of \MASnI{}, \ang{6.4} against \ang{6.3} for tetragonal \FASnI{}, and
-\ang{6.2} against \ang{6.0} for $\beta$-\CsSnI{}. In $\gamma$-\CsSnI{} the apical Sn--I--Sn bending, \ang{6.7}, matches the measured
-\ang{6.8}, while the equatorial bending, \ang{9.9}, is smaller than the measured \ang{11.3}. Below about \SI{130}{K} \FASnI{}
-develops the layered tilt of the $P4bm$ structure: on heating, successive layers tilt by \ang{10.9} and \ang{4.9} at
-\SI{110}{K}, against \ang{11.6} and \ang{3.7} measured at \SI{100}{K}, and the alternation is lost at \SI{133 \pm 3}{K}
-(\SI{127 \pm 13}{K} on cooling), within the measured range of 125 to \SI{155}{K}.
-
-Table~\ref{tab:xc} gives the transition temperatures. On heating, the tilt is lost 6 to \SI{15}{K} above the
-temperature at which it forms on cooling. The tilt-ordering temperatures of the hybrids lie within the measured ranges,
-whereas both transitions of \CsSnI{} remain 34 to \SI{56}{K} below experiment; at \SI{0.5}{K/ps} they lie 36 to
-\SI{66}{K} low (Table~\ref{tab:si-rates}), so the deficit is not a rate effect.
-Cells of about \num{20000} atoms give the same tilt systems and transition temperatures within \SI{15}{K}
-(Supporting Information).
-
-The antiphase tilt of \MASnI{} does not depend on the thermal path. A crystal prepared with the in-phase $a^-a^-c^+$
-tilt of \CsSnI{} at \SI{50}{K} and heated at \SI{0.25}{K/ps} keeps this pattern up to \SI{190 \pm 3}{K}, converts to
-$a^0a^0c^-$ and stays antiphase until the tilt is lost at \SI{275 \pm 8}{K}. Cooled from the cubic phase or heated from
-the opposite stacking, \MASnI{} ends in the antiphase phase. Why the cation selects the stacking is the subject of the
-next section.
-}
-
-% Table tab:expt-tilt is in the introduction (2026-10-29).
-
-\input{tables/tab_tilt025}
-
-\subsection{\protect\changed{Origin of the tilt sense}}
-\label{sec:res-sense}
-% Sources (2026-10-29): tilt_sense/ti_free (ti_md2.py --set r2, ti_analyze2.py, r2_summaries/); figure
-% paper_figs/fig_ti.py. 2026-10-30: with D3 (sets r2d3 FASnI3, r2d3s MASnI3, pbd3 PBEsol; d3_summaries/), SI table
-% si/tab_ti_xc.tex (paper_figs/tab_ti_si.py); flexible-crystal tests and cooling statistics npt_v2_check/a8_results.py. The static scan (previous text and figure) is in the SI (Static energies of the tilt senses).
-{\changedcolor
-The inorganic framework hardly distinguishes the two tilt senses: in DFT the in-phase and antiphase tilts of CsPbI$_3$
-and \CsSnI{} differ by about \SI{1}{meV} per formula unit,\cite{Klarbring2019PRB} and in our DFT calculations those of
-\CsSnI{} at 8 and \ang{12} differ by at most \SI{0.04}{\milli\hartree} per formula unit. The sense is therefore chosen by the A-site
-cation. To separate this choice from the kinetics of the MD, we computed the free-energy difference
-$\Delta F = F_\mathrm{anti} - F_\mathrm{in}$ between frameworks fixed at the experimental tetragonal tilts, in which only
-the cations move (Computational Methods).
-}
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\linewidth]{figures/fig_tilt_sense.pdf}
-  \caption{\changed{Free energy of the tilt sense with the \rSCAN{} potential and D3, frameworks fixed at the experimental
-    tetragonal tilts (\FASnI{} \ang{6.3}, \MASnI{} \ang{8.6}). (a) A tilt about $c$ makes each face of the A-site cage
-    a rectangle with long axis $L$; in-phase stacking keeps $L$ at the lower and upper faces, antiphase stacking turns
-    it by \ang{90}. (b) $\Delta F = F_\mathrm{anti} - F_\mathrm{in}$ per formula unit (mean $\pm$ standard error over three
-    cation arrangements for \FASnI{} and six for \MASnI{}) with its energy and entropy parts; open symbols: $\Delta F$
-    with the PBEsol potential and D3 at its own lattice.
-    (c) Integrand $\langle\partial U/\partial\lambda\rangle$ along the path at \SI{200}{K}. (d) Alignment of the cation
-    axis (FA N--N, MA C--N) with the long axis of the near and far face of its cage at \SI{200}{K}; 0.5: no preference
-    within the plane.}}
-  \label{fig:tilt-sense}
-\end{figure}
-
-{\changedcolor
-
-The free energy reproduces the experimental senses (Figure~\ref{fig:tilt-sense}b). At \SI{200}{K}, \FASnI{} is lower
-in-phase by \SI{1.14 \pm 0.02}{\milli\hartree} per formula unit and \MASnI{} lower antiphase by
-\SI{0.61 \pm 0.01}{\milli\hartree}. Between 200 and \SI{300}{K} the preferences change little: \FASnI{} favours in-phase
-by 1.14 to \SI{1.31}{\milli\hartree} and \MASnI{} antiphase by 0.54 to \SI{0.61}{\milli\hartree}. Without D3, which
-shifts both by $+0.02$ to \SI{+0.05}{\milli\hartree}, the signs hold from 100 to \SI{450}{K} for \FASnI{} and from 100
-to \SI{325}{K} for \MASnI{} (Supporting Information). The cation arrangements agree to within
-\SI{0.07}{\milli\hartree}, and MBAR reproduces the integrated values to within \SI{0.01}{\milli\hartree} for \FASnI{} and for \MASnI{} at a tilt of \ang{4}; at \ang{8.6} the nine \MASnI{} windows overlap too little for MBAR.
-The preferences are comparable to $k_\mathrm{B}T$ (\SI{0.63}{\milli\hartree} at \SI{200}{K}) per formula unit, but they
-act on every formula unit of a tilt domain.
-
-The two preferences have different origins. In \MASnI{} the energy difference, $\Delta U = \SI{-0.72}{\milli\hartree}$
-at \SI{200}{K}, accounts for the whole preference, and the entropy opposes it slightly
-($-T\Delta S = \SI{+0.11}{\milli\hartree}$). In \FASnI{} energy and entropy contribute about equally at \SI{200}{K}
-($\Delta U = +0.53$, $-T\Delta S = \SI{+0.61}{\milli\hartree}$); the entropic part vanishes towards \SI{300}{K}
-($+0.10$), where the energy carries the preference.
-
-The cause is the shape of the cage (Figure~\ref{fig:tilt-sense}a). A tilt about $c$ turns each face of the A-site cage
-into a rectangle, long along one in-plane axis $L$. In-phase tilting gives the lower and upper faces the same long axis;
-antiphase tilting crosses them. In the in-phase cage both cations lie along the common long axis
-(Figure~\ref{fig:tilt-sense}d; $\langle(\hat u\cdot L)^2\rangle = 0.90$ for the N--N axis of FA and 0.86 for the C--N
-axis of MA, against 0.5 without preference). In the crossed cage they behave differently. FA, which carries an NH$_2$
-group at each end and spans the cage, can follow only one face: it aligns with the long axis of the far face (0.81) and
-lies across that of the near face (0.16), so one end is always squeezed, which costs energy and orientational freedom.
-MA, with a single NH$_3$ group, sits close to one face and aligns with it (0.63, against 0.12 for the far face), and
-turns its C--N axis further out of the plane; this arrangement is lower in energy than in the in-phase cage. The
-integrand along the path shows the same contrast (Figure~\ref{fig:tilt-sense}c): it is positive over almost the
-whole path for \FASnI{} and negative for \MASnI{}.
-
-The PBEsol potential gives the same signs but shifts both preferences towards in-phase (Figure~\ref{fig:tilt-sense}b,
-open symbols). At \SI{200}{K} it favours antiphase in \MASnI{} by \SI{0.45 \pm 0.01}{\milli\hartree} per formula unit,
-against 0.61 with \rSCAN{}, and in-phase in \FASnI{} by \SI{1.44 \pm 0.04}{\milli\hartree}, against 1.14. The shift lies
-in the energy: $\Delta U$ is $-0.45$ against \SI{-0.72}{\milli\hartree} for \MASnI{} and $+1.14$ against
-\SI{+0.53}{\milli\hartree} for \FASnI{}. At a tilt of \ang{4}, near the onset of the tilt, \MASnI{} still favours
-antiphase, by \SI{0.21}{\milli\hartree} with PBEsol and \SI{0.30}{\milli\hartree} with \rSCAN{} (Supporting
-Information). The weaker drive of PBEsol, about 0.7\,$k_\mathrm{B}T$ per formula unit at \SI{200}{K} against
-1.0\,$k_\mathrm{B}T$, explains its \MASnI{} results in Table~\ref{tab:xc}. In the flexible crystal at \SI{200}{K},
-started from the end states of the free-energy calculations, in-phase \MASnI{} turns antiphase within about
-\SI{20}{ps} with \rSCAN{}, but stays in-phase for \SI{1}{ns} in two of three runs with PBEsol, whose antiphase tilt also
-weakens to about \ang{-4} because \SI{200}{K} lies close to its ordering temperature. Of nine coolings, \rSCAN{} orders
-\MASnI{} antiphase in all, whereas PBEsol leaves seven with a weak antiphase tilt of about \ang{-2}, below the
-ordering threshold, and traps one in-phase about two axes. PBEsol thus prefers the same sense as \rSCAN{}, but its
-preference is too weak, and its tilt too soft where the sense is chosen, to order the tilt within the simulated time;
-in-phase states, once formed, persist.
-
-Several checks support these results. Holding the framework atoms by springs instead of fixing them changes $\Delta F$
-by at most \SI{0.06}{\milli\hartree} with either potential. For \FASnI{}, in the calculation without D3, the windows
-above $\lambda = 0.84$ restarted from the configuration equilibrated at $\lambda = 0.84$ change $\Delta F$ by less than
-\SI{0.05}{\milli\hartree}, and the two end states at $\lambda = 1$, joined in one cell, relax to the same cation order,
-so the path has no trapped hysteresis. The free energies agree with the MD: \MASnI{} heated from an in-phase crystal
-converts to the antiphase tilt at \SI{190}{K}, \FASnI{} orders in-phase at every rate, and in cells that contain both
-senses the antiphase part grows in \MASnI{} and the in-phase part in \FASnI{}, with both potentials. The static energies of relaxed cation arrangements give the same signs
-(Supporting Information).
-}
-
-\subsection{\protect\changed{Effect of process conditions on band-gap deviations}}
-\label{sec:res-app}
-% 2026-10-30 (user): rewritten as process -> measured residual strain -> two modelling setups -> protocol -> band gaps.
-% MD: r2SCAN UrsaMLFF + D3 at 0.25 K/ps (npt_v2_check/make_x20_clamp.py, x20_summary.py, make_x21_ladders.py).
-% Band gaps (2026-11-12): hybrids r2SCAN (frontier_gap_r2scan_2026-10-30/results_MA_FA, gap_r2scan_analyse.py); CsSnI3 still the
-% PBEsol numbers of the earlier PBEsol study (SI, Clamping study: detailed account), r2SCAN frames not returned yet; to be
-% replaced by the gaps of the frames in frontier_gap_r2scan_2026-10-30. The PBEsol floats moved to that SI section.
-{\changedcolor
-\paragraph{Film processing and residual strain.}
-Perovskite absorbers are deposited from solution onto a substrate that carries the transport layers, crystallised by a
-thermal anneal and cooled to room temperature.\cite{StrainReview, yang2022strain} The film bonds to the substrate
-during the anneal. On cooling it would contract with its own thermal expansion, about \SI{5e-5}{\per\kelvin} for lead
-iodide perovskites against \SIrange{4e-6}{9e-6}{\per\kelvin} for glass and indium tin oxide, but the substrate restricts the
-in-plane contraction and the film ends under in-plane tension.\cite{Steele2019Science}
-
-Measurements confirm the residual tension. It reaches about \SI{50}{MPa} in lead halide films\cite{Rolston2018AEM,
-Zhao2017SciAdv} and grows with the anneal temperature: CsPbI$_2$Br annealed at \SI{160}{\celsius} carries about
-\SI{150}{MPa}.\cite{ref_processing_temp} Black CsPbI$_3$ cooled on its substrate from 300 to \SI{100}{\celsius}
-acquires an in-plane biaxial strain of about \SI{1}{\percent}.\cite{Steele2019Science} The tension matters for
-stability: the tensile CsPbI$_2$Br film converts to its non-perovskite phase and segregates its halides at
-\SI{85}{\celsius}, whereas a film held in compression does not.\cite{ref_processing_temp} Its effect on the band gap is
-less clear, because the reported shifts differ between compounds and the unstrained reference state is hard to
-define.\cite{StrainReview} For the tin iodides we are not aware of a strain-resolved band-gap measurement.
-
-\paragraph{Model setups}
-We describe the substrate in two ways and compare both with a free-standing crystal that goes through the same thermal
-history; every band-gap change below is a difference from this free crystal. The first setup takes the residual stress
-from experiment: the film carries an in-plane tension of \SI{50}{MPa} while its normal relaxes freely. It does not
-depend on how the stress arose and stands for a film whose bond to the substrate has partly relaxed. The second setup
-simulates the process: the in-plane cell is fixed at its value at the end of the anneal, as for a film bonded to a rigid
-substrate, and only the film normal relaxes on cooling. The residual stress then follows from the thermal contraction
-that the substrate blocks. Because the contraction of the substrate itself is neglected, the second setup gives the
-largest mismatch strain the process can produce.
-
-\paragraph{Protocol.}
-Every film follows the same history with the \rSCAN{} potential and D3, in cells of 2000 (\CsSnI{}) and 2304 atoms
-(hybrids) with the $a$ and $b$ axes in the film plane, three runs per setup:
-\begin{enumerate}
-  \item Anneal: \SI{5}{ps} at constant volume and \SI{50}{ps} at the external pressure $P_\mathrm{ext}$ on all axes, at
-        the anneal temperature (\SI{373}{K} in the device).
-  \item Substrate: from the end of the anneal, the free crystal keeps $P_\mathrm{ext}$ on all axes; setup~1 applies
-        $P_{xx} = P_{yy} = P_\mathrm{ext} - \SI{0.05}{GPa}$; setup~2 fixes $a$ and $b$ at their values at the end of the
-        anneal. The normal stays at $P_\mathrm{ext}$ in all three.
-  \item Cooling: at \SI{0.25}{K/ps} to the damp-heat test temperature (\SI{358}{K}, held \SI{50}{ps}) and on to the
-        operating temperature (\SI{300}{K}, held \SI{150}{ps}), from which the band-gap frames are drawn by stratified
-        sampling.
-\end{enumerate}
-Each device temperature is shifted by the difference between the model's and the experimental transition on heating
-(Table~\ref{tab:xc}; \CsSnI{} $-\SI{39}{K}$, \MASnI{} and \FASnI{} $+\SI{15}{K}$), so that the films anneal and operate
-at the same distance from their transitions as in a device. \CsSnI{} then anneals in its $\beta$ phase and crosses into
-$\gamma$ under the substrate constraint, whereas \MASnI{} and \FASnI{} stay untilted from anneal to operation.
-
-\paragraph{Mechanical state.}
-Both setups leave the films stretched in the plane by 0.2 to \SI{0.4}{\percent} and thinner along the normal
-(Table~\ref{tab:clamp-state}). The rigid clamp builds up an in-plane tension of 63 to \SI{77}{MPa}, close to the
-\SI{50}{MPa} of the first setup and to the stresses measured in films, so the two setups reach similar states by
-different routes. In \CsSnI{} the constraint weakens the in-phase tilt about the normal from \ang{8.5} to \ang{7.8} but
-keeps the $a^-a^-c^+$ pattern of the free crystal in every clamped run; under the imposed tension one of the three
-films moved its in-phase axis into the plane. \MASnI{} and \FASnI{} stay untilted in every run. At these strains the FA cations turn slightly into the
-film plane, while the MA orientations do not change; the response of the tilt and of the cation orientation over
-a wider range of strain is given in the Supporting Information.
-
-\paragraph{Band gaps.}
-Table~\ref{tab:gap-setups} gives the band-gap changes at the operating temperature. For the hybrids they are
-\rSCAN{} gaps of complete MD frames, twelve per setup. The ensemble changes are not resolved: the gap of \MASnI{}
-changes by $7 \pm 18$ and $10 \pm \SI{18}{meV}$ under the imposed tension and the rigid clamp, that of \FASnI{} by
-$21 \pm 20$ and $0 \pm \SI{17}{meV}$. Straining free frames to the mean cells of the two setups isolates the elastic
-part, which is resolved: $8 \pm 6$ and $12 \pm \SI{7}{meV}$ in \MASnI{}, $13 \pm 4$ and $15 \pm \SI{5}{meV}$ in
-\FASnI{}. It follows the volume, with a deformation potential $a_V = \mathrm{d}\Eg/\mathrm{d}\ln V$ of \SI{3.1}{eV} in
-\MASnI{} and \SI{3.0}{eV} in \FASnI{}, as expected for a valence-band maximum of antibonding Sn 5s--I 5p
-character.\cite{huang2013electronic} The ensemble changes agree with the elastic part within their errors, consistent
-with a purely elastic response of the untilted hybrids. The gap scatters by 35 to \SI{67}{meV} from frame to frame, so
-that differences below about \SI{20}{meV} are not resolved with the present number of frames (Supporting Information,
-Table~\ref{tab:si-gap-r2}). For \CsSnI{} the gaps are those of the earlier PBEsol study (Supporting Information): the
-imposed tension opens the gap by $20 \pm \SI{13}{meV}$ and the rigid clamp by $6 \pm \SI{12}{meV}$, with an elastic
-part of $18 \pm 6$ and $19 \pm \SI{7}{meV}$ and a deformation potential of \SI{3.5}{eV}.
-}
-
-\begin{table}[htbp]
+\begin{table}[t]
   \centering\small
-  \caption{\changed{State at the operating temperature of the films under the two substrate setups, relative to the
-    free crystal with the same history (\rSCAN{} potential with D3, \SI{0.25}{K/ps}, three runs each).
-    $\Delta\varepsilon_\parallel$, $\Delta\varepsilon_\perp$: in-plane and normal strain (\%);
-    $\Delta\sigma_\parallel$: in-plane stress (MPa, tensile positive). Tilt: amplitude about the film normal from the
-    rotation correlation of neighbouring octahedra (deg; $+$ in-phase). Biaxial moduli $Y/(1-\nu)$ from strain ladders at
-    the operating temperature: \CsSnI{} 23.1, \MASnI{} 20.3, \FASnI{} \SI{21.5}{GPa}.}}
-  \label{tab:clamp-state}
+  \caption{Simulated (sim.) against measured (exp.) tilt systems, tilt angles and transition temperatures (heating /
+    cooling). Angles: amplitude of the single tilt ($+$ in-phase, $-$ antiphase); $\gamma$-\CsSnI{}: equatorial / apical
+    Sn--I--Sn bending; each compared at the same distance below its transition.\cite{Chung2012JACS,
+    stoumpos2013semiconducting, Takahashi2011Dalton, Kahmann2020ACSEL, schueller2018crystal}}
+  \label{tab:wp-tilts}
   \begin{tabular}{llcccc}
     \toprule
-    compound & film & $\Delta\varepsilon_\parallel$ & $\Delta\varepsilon_\perp$ & $\Delta\sigma_\parallel$ & tilt \\
+    compound & phase & tilt system & angle (deg), exp. / sim. & transition & $T$ (K), exp. / sim. \\
     \midrule
-    \changed{\CsSnI{}} & \changed{free} & \changed{0} & \changed{0} & \changed{0} & \changed{$+$8.5} \\
-     & \changed{setup 1 (\SI{50}{MPa})} & \changed{$+$0.40$^a$} & \changed{$-$0.47$^a$} & \changed{$+$50} & \changed{$+$8.0$^a$} \\
-     & \changed{setup 2 (clamp)} & \changed{$+$0.29} & \changed{$-$0.23} & \changed{$+$63} & \changed{$+$7.8} \\
-    \changed{\MASnI{}} & \changed{free} & \changed{0} & \changed{0} & \changed{0} & \changed{$<$1} \\
-     & \changed{setup 1 (\SI{50}{MPa})} & \changed{$+$0.21} & \changed{$-$0.14} & \changed{$+$53} & \changed{$<$1} \\
-     & \changed{setup 2 (clamp)} & \changed{$+$0.32} & \changed{$-$0.24} & \changed{$+$77} & \changed{$<$1} \\
-    \changed{\FASnI{}} & \changed{free} & \changed{0} & \changed{0} & \changed{0} & \changed{$<$1} \\
-     & \changed{setup 1 (\SI{50}{MPa})} & \changed{$+$0.27} & \changed{$-$0.17} & \changed{$+$47} & \changed{$<$1} \\
-     & \changed{setup 2 (clamp)} & \changed{$+$0.36} & \changed{$-$0.26} & \changed{$+$66} & \changed{$<$1} \\
+    \CsSnI{} & $\beta$ & $a^0a^0c^+$ & $+$6.0 / $+$6.2 & $\alpha\leftrightarrow\beta$ & 440, 426 / 385, 370 \\
+     & $\gamma$ & $a^-a^-c^+$ & 11.3, 6.8 / 9.9, 6.7 & $\beta\leftrightarrow\gamma$ & 362, 351 / 323, 317 \\
+    \MASnI{} & tetragonal & $a^0a^0c^-$ & $-$8.6 / $-$8.5 & tilt order & ${\sim}275$ / 290, 260 \\
+    \FASnI{} & tetragonal & $a^0a^0c^+$ & $+$6.3 / $+$6.4 & tilt order & 225--255 / 255, 247 \\
+     & low $T$ & layered $c^+$ & 11.6, 3.7 / 10.9, 4.9 & layering & 125--155 / 133, 127 \\
     \bottomrule
   \end{tabular}
-  \begin{flushleft}
-    \small \changed{$^a$ One of the three films moved its in-phase axis into the plane; strains: mean of all three films, tilt: mean of the other two.}
-  \end{flushleft}
 \end{table}
 
-% Hybrids: r2SCAN (gap_r2scan_summary.json). CsSnI3: PBEsol values of si/tab_gap_ensemble.tex and tables/tab_gap_elastic.tex.
-\begin{table}[htbp]
+\subsection{Why MA and FA tilt oppositely}
+The inorganic framework hardly distinguishes the two stackings, whose energies differ by about \SI{1}{meV} per formula
+unit,\cite{Klarbring2019PRB} so the A-site cation must choose. We computed the free-energy difference between the
+two stackings in frameworks held at the measured tilts, with only the cations moving (Figure~\ref{fig:wp-sense}b).
+\FASnI{} is lower in-phase by \SI{31}{meV} per formula unit at \SI{200}{K} and by 31 to \SI{36}{meV} up to
+\SI{300}{K}; \MASnI{} is lower antiphase by 15 to \SI{17}{meV}. These preferences are comparable to the thermal energy
+per formula unit, \SI{17}{meV} at \SI{200}{K}, but they act on every formula unit of a tilt domain.
+
+The cause is the shape of the cage (Figure~\ref{fig:wp-sense}a). A tilt turns each face of the cage around the
+cation into a rectangle with a long axis $L$. In-phase stacking gives the lower and upper faces the same long axis;
+antiphase stacking crosses them. In the in-phase cage both cations lie along the common long axis. In the crossed cage
+FA, which carries an NH$_2$ group at each end and spans the cage, can follow only one face: it aligns with the far face
+and lies across the near one, so one end is always squeezed (Figure~\ref{fig:wp-sense}c). MA, with a single NH$_3$
+group, sits against one face and aligns with it, an arrangement that is lower in energy than in the in-phase cage. In
+\MASnI{} the energy carries the whole preference; in \FASnI{} energy and orientational entropy contribute about
+equally at \SI{200}{K}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{wp_tilt_sense.pdf}
+  \caption{Origin of the tilt stacking. (a) A tilt about $c$ makes each face of the cation cage a rectangle with long
+    axis $L$; in-phase stacking keeps $L$ at the lower and upper faces, antiphase stacking turns it by \ang{90}. (b)
+    Free energy of antiphase relative to in-phase stacking per formula unit, with its energy and entropy parts, in
+    frameworks held at the measured tilts. (c) Alignment of the cation axis (FA N--N, MA C--N) with the long axis of the
+    near and far face of its cage at \SI{200}{K}; 0.5: no preference.}
+  \label{fig:wp-sense}
+\end{figure}
+
+\subsection{An idealised model of film processing}
+We follow each compound through the process history of a device film: an anneal at \SI{373}{K}, cooling at
+\SI{0.25}{K/ps} through the \SI{358}{K} of damp-heat testing to the operating temperature of \SI{300}{K}, and a hold
+there. Each temperature is shifted by the difference between the simulated and the measured transition, so that the
+film anneals and operates at the same distance from its transition as in a device. \CsSnI{} then anneals in its
+$\beta$ phase and crosses into $\gamma$ during cooling, while \MASnI{} and \FASnI{} stay untilted throughout. The
+substrate is described in two ways and compared with a free-standing crystal of the same history: an in-plane tension
+of \SI{50}{MPa}, the measured residual stress, and an in-plane cell fixed at the end of the anneal, as for a film
+bonded to a rigid substrate, the largest mismatch the process can produce.
+
+Both descriptions leave the films stretched in the plane by 0.2 to \SI{0.4}{\percent} (Table~\ref{tab:wp-film}). The
+rigid substrate builds up 63 to \SI{77}{MPa}, close to the imposed \SI{50}{MPa} and to the stresses measured in
+films. No compound changes its tilt pattern: the constraint weakens the tilt of \CsSnI{} about the film normal from
+\ang{8.5} to \ang{7.8}, and the hybrids stay untilted.
+
+\begin{table}[t]
   \centering\small
-  \caption{\changed{Band-gap change against the free crystal at the operating temperature (meV, mean $\pm$ standard
-    error). Ensemble: MD frames of each setup. Elastic: free frames strained affinely to the mean cell of the setup.}
-    Hybrids: \rSCAN{} potential and gaps. $^a$ PBEsol potential and gaps of the earlier PBEsol study (Supporting
-    Information).}
-  \label{tab:gap-setups}
-  \begin{tabular}{lcccc}
+  \caption{Processed films at the operating temperature, relative to the free crystal with the same history:
+    in-plane strain $\Delta\varepsilon_\parallel$, in-plane stress $\sigma_\parallel$ (tensile positive), tilt about
+    the film normal, and band-gap change $\Delta E_\mathrm{g}$ (mean $\pm$ standard error) of the film and of its
+    purely elastic part. $^a$Preliminary.}
+  \label{tab:wp-film}
+  \begin{tabular}{llccccc}
     \toprule
-     & \multicolumn{2}{c}{setup 1 (\SI{50}{MPa})} & \multicolumn{2}{c}{setup 2 (clamp)} \\
-    \cmidrule(lr){2-3}\cmidrule(lr){4-5}
-    compound & ensemble & elastic & ensemble & elastic \\
+    compound & substrate & $\Delta\varepsilon_\parallel$ (\%) & $\sigma_\parallel$ (MPa) & tilt (deg) &
+      $\Delta E_\mathrm{g}$ (meV) & elastic (meV) \\
     \midrule
-    \CsSnI{}$^a$ & $+$20 $\pm$ 13 & $+$18 $\pm$ 6 & $+$6 $\pm$ 12 & $+$19 $\pm$ 7 \\
-    \MASnI{} & $+$7 $\pm$ 18 & $+$8 $\pm$ 6 & $+$10 $\pm$ 18 & $+$12 $\pm$ 7 \\
-    \FASnI{} & $+$21 $\pm$ 20 & $+$13 $\pm$ 4 & $0 \pm 17$ & $+$15 $\pm$ 5 \\
+    \CsSnI{} & free & 0 & 0 & 8.5 & -- & -- \\
+     & \SI{50}{MPa} tension & $+$0.40 & 50 & 8.0 & $+$20 $\pm$ 13$^a$ & $+$18 $\pm$ 6$^a$ \\
+     & rigid & $+$0.29 & 63 & 7.8 & $+$6 $\pm$ 12$^a$ & $+$19 $\pm$ 7$^a$ \\
+    \MASnI{} & \SI{50}{MPa} tension & $+$0.21 & 53 & $<$1 & $+$7 $\pm$ 18 & $+$8 $\pm$ 6 \\
+     & rigid & $+$0.32 & 77 & $<$1 & $+$10 $\pm$ 18 & $+$12 $\pm$ 7 \\
+    \FASnI{} & \SI{50}{MPa} tension & $+$0.27 & 47 & $<$1 & $+$21 $\pm$ 20 & $+$13 $\pm$ 4 \\
+     & rigid & $+$0.36 & 66 & $<$1 & $0 \pm 17$ & $+$15 $\pm$ 5 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\subsection{\protect\changed{Residual strain, iodide migration and the stability of black \CsSnI{}}}
-\label{sec:res-strain-stability}
-% 2026-11-12 (user): new study. Umbrella sampling x35 (CsSnI3, 261 K) and x51 (MA/FA, 315 K), WHAM (umb_wham.py);
-% yellow/black x32 ladder + Frenkel-Ladd + x33 stress ladder (yb_gibbs.py, yb_stress.py); MD hop counts x34/x36.
-% Force-field results (v2r2c + D3); DFT check of the hop paths and of the yellow-black energy: SI section si:strain-dft.
-{\changedcolor
-\paragraph{Iodide migration.}
-We computed the free-energy barrier of an iodide hop into a neighbouring vacancy by umbrella sampling at the operating
-temperature, in the cells of the clamping study with one cation and one iodide removed. The reaction coordinate is the
-difference between the distances of the hopping iodide to the two tin atoms it leaves and joins, sampled in 26 windows;
-the in-plane cell is fixed at the free lattice strained by $-1$, 0 and $+\SI{1}{\percent}$ and the film normal relaxes.
-Two hops are distinguished: within the film plane, between two equatorial sites, and out of the plane, between an
-apical and an equatorial site. In the hybrids a restraint keeps the neighbouring cations out of the empty cage.
+\subsection{Band gap of the processed film}
+The band gap was computed on snapshots of each film at the operating temperature and compared with the free crystal
+(Table~\ref{tab:wp-film}). Straining free snapshots to the cell of the processed film isolates the elastic part. In
+the hybrids this part opens the gap by 8 to \SI{15}{meV}; it follows the volume with a deformation potential of about
+\SI{3}{eV}, as expected for a valence-band maximum of antibonding Sn 5s--I 5p character.\cite{huang2013electronic}
+The changes of the full films agree with the elastic part, so the untilted hybrids respond elastically. At the
+operating temperature the gap fluctuates by 35 to \SI{67}{meV} from snapshot to snapshot, several times the shift
+caused by the process. In \CsSnI{} preliminary values give an opening of about \SI{20}{meV} under tension, again close
+to the elastic part.
 
-Table~\ref{tab:hop-strain} gives the barriers. In \CsSnI{} tension lowers both, by \SI{17}{meV} per percent
-in the plane and \SI{35}{meV} per percent out of it between 0 and $+\SI{1}{\percent}$; at the residual
-strain of the clamped film, $+\SI{0.25}{\percent}$, the hops become 1.2 and 1.5 times faster. Unbiased MD of cells with
-eight vacancy pairs supports the trend: at \SI{475}{K} the hop rate at $+\SI{1}{\percent}$ is $2.2 \pm 0.2$ times that of
-the unstrained cell, and the rates at 450 to \SI{500}{K} give an activation energy of about \SI{0.40}{eV}.
-The hybrids respond less, and differently in the plane. Their out-of-plane barriers also fall under tension, by 28
-(\MASnI{}) and \SI{6}{meV} (\FASnI{}) per percent, but their in-plane barriers are lowest under
-compression, 36 to \SI{59}{meV} below the unstrained value at $-\SI{1}{\percent}$, and change by less than
-\SI{10}{meV} under tension. At $+\SI{0.25}{\percent}$ the hop rates of the hybrids change by factors of 0.95
-to 1.3. The tension left by processing thus accelerates iodide migration most in the tilted inorganic compound. On the
-static hop paths DFT gives the same lowering under tension in \CsSnI{}, \SI{0.07}{eV} per percent against
-\SI{0.05}{eV} with the potential (Supporting Information, Table~\ref{tab:si-hop-dft}).
+\subsection{Residual strain and thermal degradation}
+Without oxygen or moisture, the intrinsic routes of degradation are iodide migration through vacancies and, in
+\CsSnI{}, conversion to the yellow phase. We computed the free-energy barrier of an iodide hop into a neighbouring
+vacancy at the operating temperature, with the in-plane lattice strained by $-1$, 0 and $+\SI{1}{\percent}$
+(Table~\ref{tab:wp-hop}). In \CsSnI{} tension lowers both barriers, by \SI{17}{meV} per percent for hops within the
+film plane and \SI{35}{meV} per percent for hops out of it; at the residual strain of a clamped film,
+$+\SI{0.25}{\percent}$, iodide hops become 1.2 to 1.5 times faster. Direct simulations of cells with several
+vacancies confirm the trend: at \SI{475}{K} the hop rate at $+\SI{1}{\percent}$ is $2.2 \pm 0.2$ times that of the
+unstrained cell, with an activation energy of about \SI{0.40}{eV}. The hybrids respond less: their out-of-plane
+barriers fall by 28 (\MASnI{}) and \SI{6}{meV} (\FASnI{}) per percent, their in-plane barriers are lowest under
+compression, and at $+\SI{0.25}{\percent}$ their hop rates change by factors of 0.95 to 1.3.
 
-\paragraph{Black and yellow \CsSnI{}.}
-The free energies of the yellow and the black ($\gamma$) phase were obtained from a Frenkel--Ladd reference at
-\SI{100}{K} and integration of the enthalpy over temperature, and their dependence on stress from the volumes under
-hydrostatic and in-plane loads of up to $\pm\SI{150}{MPa}$. At the operating temperature the yellow phase is the stable
-one, by \SI{19}{meV} per formula unit, as in experiment;\cite{Chung2012JACS} its lower enthalpy
-(\SI{76}{meV}) outweighs the higher entropy of the black phase, and the two free energies cross
-\SI{84}{K} above the operating temperature. The yellow phase is denser by \SI{11.5}{\angstrom^3} per formula unit, so
-tension favours the black phase: a hydrostatic tension of \SI{50}{MPa} raises the free energy of yellow against black
-by \SI{3.6}{meV} and lowers the crossing by \SI{17}{K}, and an in-plane tension of \SI{50}{MPa} by
-\SI{2.4}{meV} and \SI{11}{K}. The elastic energy stored in the two phases differs by less than
-\SI{0.1}{meV}. Reversing the stability at the operating temperature would take an in-plane tension near
-\SI{380}{MPa}, several times the residual stress of a film. With the DFT energy difference of the two phases
-(Supporting Information) the yellow phase is favoured by \SI{12}{meV}, the crossing lies about \SI{50}{K} above the
-operating temperature and the reversal takes about \SI{230}{MPa}; the conclusions are the same. Residual tension therefore slows the conversion of black
-\CsSnI{} only marginally through its thermodynamics, while it speeds up the iodide migration by which the film
-degrades.
-}
-
-\begin{table}[htbp]
+\begin{table}[t]
   \centering\small
-  \caption{\changed{Free-energy barrier of an iodide hop into a vacancy (eV) against in-plane strain,
-    from umbrella sampling with the \rSCAN{} potential and D3 at the operating temperature of the model (\CsSnI{}
-    \SI{261}{K}, hybrids \SI{315}{K}). In-plane: between equatorial sites; out-of-plane: between an apical and an
-    equatorial site. Uncertainty about \SI{0.02}{eV}.}}
-  \label{tab:hop-strain}
+  \caption{Free-energy barrier of an iodide hop into a vacancy (eV) against in-plane strain at the operating
+    temperature. In-plane: between two sites in the film plane; out-of-plane: between an apical and an in-plane site.
+    Uncertainty about \SI{0.02}{eV}.}
+  \label{tab:wp-hop}
   \begin{tabular}{llccc}
     \toprule
     compound & hop & $-\SI{1}{\percent}$ & 0 & $+\SI{1}{\percent}$ \\
     \midrule
-    \changed{\CsSnI{}} & \changed{in-plane} & \changed{0.50} & \changed{0.47} & \changed{0.45} \\
-     & \changed{out-of-plane} & \changed{0.41} & \changed{0.37} & \changed{0.34} \\
-    \changed{\MASnI{}} & \changed{in-plane} & \changed{0.33} & \changed{0.39} & \changed{0.40} \\
-     & \changed{out-of-plane} & \changed{0.42} & \changed{0.42} & \changed{0.39} \\
-    \changed{\FASnI{}} & \changed{in-plane} & \changed{0.43} & \changed{0.47} & \changed{0.46} \\
-     & \changed{out-of-plane} & \changed{0.47} & \changed{0.46} & \changed{0.45} \\
+    \CsSnI{} & in-plane & 0.50 & 0.47 & 0.45 \\
+     & out-of-plane & 0.41 & 0.37 & 0.34 \\
+    \MASnI{} & in-plane & 0.33 & 0.39 & 0.40 \\
+     & out-of-plane & 0.42 & 0.42 & 0.39 \\
+    \FASnI{} & in-plane & 0.43 & 0.47 & 0.46 \\
+     & out-of-plane & 0.47 & 0.46 & 0.45 \\
     \bottomrule
   \end{tabular}
 \end{table}
+
+For \CsSnI{} we compared the free energies of the yellow and the black phase and their dependence on stress. At the
+operating temperature the yellow phase is the stable one, by 12 to \SI{19}{meV} per formula unit, as observed.\cite{Chung2012JACS}
+It is denser by \SI{11.5}{\angstrom^3} per formula unit, so tension favours the black phase, but only slightly: an
+in-plane tension of \SI{50}{MPa} raises the free energy of yellow against black by \SI{2.4}{meV} per formula unit and
+lowers their crossing temperature by \SI{11}{K}. Reversing the stability at the operating temperature would take 230
+to \SI{380}{MPa}, several times the residual stress of a film.
+
+\subsection{Insights}
+The A-site cation, not the process, sets how the octahedral tilts stack. A cation with a hydrogen-bonding group at
+each end, such as FA, is frustrated by crossed cage faces and selects in-phase tilting; a cation anchored at one end,
+such as MA, selects antiphase tilting. The preference is of the order of the thermal energy per formula unit, large
+enough to fix the stacking of a tilt domain whatever the cooling path, and the cage-shape argument offers a criterion
+for choosing cations.
+
+Processing leaves the films under 0.2 to \SI{0.4}{\percent} in-plane tension and 50 to \SI{80}{MPa}, the range
+measured in films, without changing the tilt pattern of any compound. For the untilted hybrids the resulting band-gap
+shift is elastic, about \SI{10}{meV}, and smaller than the thermal fluctuation of the gap at the operating
+temperature: within the range of residual stresses that processing produces, the substrate and the anneal are weak
+levers on the band gap.
+
+They are stronger levers on stability. Residual tension accelerates iodide migration, most in the tilted inorganic
+compound, where hops become 1.2 to 1.5 times faster at the residual strain and about twice as fast at
+\SI{1}{\percent}; in the hybrids the effect is small. The same tension shifts the balance between black and yellow
+\CsSnI{} by only a few meV per formula unit, so the conversion to the yellow phase is not driven by the residual
+stress. For \CsSnI{} films, a lower anneal temperature or a substrate whose thermal expansion is closer to that of the
+film should therefore slow the degradation that proceeds through iodide migration.
