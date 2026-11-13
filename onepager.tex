@@ -8,14 +8,13 @@
 \textbf{The question.} Before making a perovskite film, can we predict how composition, annealing and substrate constraints will affect its structure, band gap and stability-related mechanisms? If so, we could identify promising processing conditions and prioritize experiments rather than relying primarily on trial and error.
 
 \textbf{Why it matters.} The absorber is a polycrystalline film bonded to its substrate during the anneal; on
-cooling the substrate leaves it under 50 to \SI{150}{MPa} of in-plane tension, known to speed up degradation. In
-\CsSnI{}, \MASnI{} and \FASnI{} the octahedral tilts that set the band gap change close to device temperatures, and
+cooling the substrate leaves it under 50 to \SI{150}{MPa} of tension, known to speed up degradation. In
+\CsSnI{}, \MASnI{} and \FASnI{} the tilts that set the band gap change near device temperatures, and
 black \CsSnI{} competes with a yellow phase.
 
 \textbf{The short answer.} Processing strain has a relatively small effect on band gap but can change iodide mobility and phase stability. In \CsSnI{}, tensile strain creates a trade-off: it favours the photovoltaic black phase while accelerating iodide migration. Understanding such competing effects can help guide process optimization.
 
-\textbf{What we did.} With UrsaMLFF, our machine-learned force field, we took films of the three compounds through an idealised anneal and cooling on a substrate, and computed band
-gap, iodide-migration barrier and stability of black \CsSnI{}.
+\textbf{What we did.} With UrsaMLFF, our machine-learned force field, we took films of all three through an idealised anneal and cooling on a substrate, and computed band gap, iodide-migration barrier and black-phase stability.
 
 \textbf{What we found.}
 \begin{itemize}[leftmargin=12pt, itemsep=0pt, topsep=1pt]
@@ -23,25 +22,26 @@ gap, iodide-migration barrier and stability of black \CsSnI{}.
     within \ang{0.3}, and the tilt transitions of the hybrids within the measured ranges.
   \item \textbf{The cation sets the tilt pattern} through the shape of its cage: FA (both ends hydrogen-bonding) prefers
     in-phase tilts by \SI{31}{meV} per formula unit, MA (one anchored end) antiphase tilts by 15 to \SI{17}{meV}, a rule for new cations.
-  \item \textbf{Processing leaves 0.2 to 0.4\,\% in-plane tension} (50 to \SI{77}{MPa}, as measured in films)
-    and does not change the tilt pattern of any compound.
+  \item \textbf{Processing leaves 0.2 to 0.4\,\% tension} (50 to \SI{77}{MPa}, as measured in films), with every tilt pattern unchanged.
   \item \textbf{The band gap is not a processing variable:} the films open by 8 to \SI{19}{meV}, purely elastically,
     less than the 35 to \SI{67}{meV} by which the gap fluctuates at operating temperature.
   \item \textbf{Tension speeds up iodide migration in \CsSnI{}}: hops 1.2 to 1.5 times faster at the residual strain
     (as if the film ran 3 to \SI{8}{K} hotter), twice at \SI{1}{\percent}. The hybrids hardly respond to tension, but
     \SI{1}{\percent} compression speeds their in-plane hops 4 to 10 times.
 
-  \item \textbf{In \CsSnI{} strain cuts both ways:} yellow is lower than black by 11 to \SI{19}{meV} per
-    formula unit; each percent of tension recovers about \SI{11}{meV} but doubles migration, processing only 2 to
-    \SI{4}{meV}.
+  \item \textbf{A quantified trade-off in \CsSnI{}:} a processing condition can improve one property while
+    worsening another. Tensile strain favours the photovoltaic black phase but accelerates iodide migration: typical
+    residual processing strain gives only 2 to \SI{4}{meV} per formula unit of black-phase stabilisation (yellow is
+    lower by 11 to \SI{19}{meV}) while iodide hops 1.2 to 1.5 times faster. Quantifying both sides gives a guideline
+    for optimising the process.
 \end{itemize}
 
 \textbf{What it means for experiment and manufacturing.}
 \begin{itemize}[leftmargin=12pt, itemsep=0pt, topsep=1pt]
   \item Substrate and anneal do not noticeably affect or deteriorate the band gap of tin iodide films; shifts of tens of meV point to
     composition or carrier concentration.
-  \item For \CsSnI{}, lower the residual tension (lower anneal temperature, thermally matched substrate or transport
-    layer, hot-deposited transport layer) to slow migration, and keep the film black by blocking yellow nucleation,
+  \item For \CsSnI{}, reduce residual tension (lower anneal temperature, thermally matched substrate or transport
+    layer, hot-deposited transport layer) to slow migration, and keep it black by blocking yellow nucleation,
     not by strain.
   \item For MA and FA films, aim for low residual strain rather than compression.
   
