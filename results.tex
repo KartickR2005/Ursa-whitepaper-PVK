@@ -132,39 +132,50 @@ not a band-gap variable in these tin films.
 \subsection{Does residual strain accelerate degradation?}
 \label{sec:wp-hop}
 The second is the lifetime of the film. Without oxygen or moisture, the intrinsic routes of degradation are iodide migration through vacancies and, in
-\CsSnI{}, conversion to the yellow phase, treated in the next section. We computed the free-energy barrier of an iodide hop into a neighbouring
-vacancy at the operating temperature, with the in-plane lattice strained by $-1$, 0 and $+\SI{1}{\percent}$
-(Table~\ref{tab:wp-hop}). In \CsSnI{} tension lowers both barriers, by \SI{17}{meV} per percent for hops within the
-film plane and \SI{35}{meV} per percent for hops out of it; at the residual strain of a clamped film,
-$+\SI{0.25}{\percent}$, iodide hops become 1.2 to 1.5 times faster, the acceleration that running the film 3 to
-\SI{8}{K} hotter would cause. Direct simulations of crystals with several vacancies, run hot enough for the hops to be
-counted, confirm the trend: at $+\SI{1}{\percent}$ the hop rate is $2.2 \pm 0.2$ times that of the unstrained crystal,
-with an activation energy of about \SI{400}{meV}. The hybrids respond differently. Tension hardly affects them: at
-$+\SI{0.25}{\percent}$ their hop rates change by factors of 0.95 to 1.3, and their out-of-plane barriers fall by 28
-(\MASnI{}) and \SI{6}{meV} (\FASnI{}) per percent. Compression, however, lowers their in-plane barriers, by 59
-(\MASnI{}) and \SI{36}{meV} (\FASnI{}) at $-\SI{1}{\percent}$, which makes these hops about 10 and 4 times faster. The barriers lie in the
-range of measured activation energies of halide migration, $370 \pm \SI{60}{meV}$ in MASnBr$_3$\cite{Kubicki2020JACS} and
-600 to \SI{680}{meV} in \ce{MAPbI3} cells.\cite{Eames2015NatCommun} Measurements on lead halide films agree in sign: the
-activation energy of ion conduction in \ce{MAPbI3} films falls under tension,\cite{Zhao2017SciAdv} and tensile CsPbI$_2$Br cells degrade faster at
-\SI{85}{\celsius} than compressed ones.\cite{ref_processing_temp}
+\CsSnI{}, conversion to the yellow phase, treated in the next section. We followed iodide migration directly, in
+\SI{10}{ns} simulations of crystals containing cation and iodide vacancies, with the in-plane lattice strained between
+$-1$ and $+\SI{1}{\percent}$ at 450 to \SI{500}{K}, hot enough for many hops to occur, and computed the energy barrier
+of each hop that took place. In \CsSnI{} strain does not change how fast iodide moves overall: per percent of tension the
+overall mobility changes by a factor of $0.97 \pm 0.04$, and the activation energy, \SI{290}{meV}, stays the same
+(Table~\ref{tab:wp-hop}). Strain changes the direction instead. Each percent of tension makes migration along the film
+normal 1.22 times faster and within the plane 0.87 times as fast; compression does the reverse. At the residual strain
+of a clamped film, $+\SI{0.25}{\percent}$, migration towards the contacts rises by about \SI{5}{\percent}, as much as
+running the film 1 to \SI{2}{K} hotter. The barriers of the hops that occur, 330 meV on average, change by less than
+\SI{10}{meV} per percent of strain. \MASnI{} shows the same pattern: under tension its hops shift from the plane to the
+normal, with no change in their average barrier. In \FASnI{} too few hops occurred under compression to resolve a trend.
+
+The direction runs against intuition: stretching the plane does not open the in-plane paths. Each hop passes between two
+caesium ions. For a hop within the plane they sit above and below it, and for a hop towards the normal beside it in the
+plane (Figure~\ref{fig:wp-hop}). Stretching the plane moves the second pair apart, which lowers the barrier of hops
+towards the normal by about \SI{15}{meV} per percent. The film also thins slightly as it is stretched, by about
+\SI{0.6}{\percent} per percent, which brings the first pair closer and raises the barrier of in-plane hops by about
+\SI{10}{meV} per percent; with the film thickness held fixed, the in-plane barrier does not change.
+
+Our activation energy, which leaves out the formation of the vacancies, lies below measured activation energies of halide
+migration, $370 \pm \SI{60}{meV}$ in MASnBr$_3$\cite{Kubicki2020JACS} and 600 to \SI{680}{meV} in \ce{MAPbI3}
+cells.\cite{Eames2015NatCommun} In lead halide films the activation
+energy of ion conduction falls under tension\cite{Zhao2017SciAdv} and tensile CsPbI$_2$Br cells degrade faster at
+\SI{85}{\celsius} than compressed ones.\cite{ref_processing_temp} In tin iodide crystals we find no such acceleration,
+which points to grain boundaries and interfaces, absent from our crystals, or to a difference between the lead and tin
+compounds.
 
 \begin{figure}[t]
   \centering
   \begin{minipage}[b]{0.5\linewidth}
     \centering\small
-    \captionof{table}{Free-energy barrier of an iodide hop into a vacancy (meV) against in-plane strain at the
-      operating temperature; uncertainty about \SI{20}{meV}. Paths as in Figure~\ref{fig:wp-hop}.}
+    \captionof{table}{Iodide mobility in \CsSnI{} relative to the unstrained crystal, along the film normal (towards
+      the contacts), within the film plane and overall, from \SI{10}{ns} simulations at 450 to \SI{500}{K};
+      uncertainty about 0.05.}
     \label{tab:wp-hop}
-    \begin{tabular}{llccc}
+    \begin{tabular}{lccc}
       \toprule
-      compound & hop & $-\SI{1}{\percent}$ & 0 & $+\SI{1}{\percent}$ \\
+      in-plane strain & normal & in-plane & overall \\
       \midrule
-      \CsSnI{} & in-plane & 497 & 469 & 452 \\
-       & out-of-plane & 409 & 373 & 338 \\
-      \MASnI{} & in-plane & 333 & 392 & 397 \\
-       & out-of-plane & 416 & 418 & 390 \\
-      \FASnI{} & in-plane & 431 & 467 & 459 \\
-       & out-of-plane & 471 & 459 & 453 \\
+      $-\SI{1}{\percent}$ & 0.82 & 1.15 & 1.03 \\
+      $-\SI{0.25}{\percent}$ & 0.95 & 1.04 & 1.01 \\
+      0 & 1 & 1 & 1 \\
+      $+\SI{0.25}{\percent}$ & 1.05 & 0.97 & 0.99 \\
+      $+\SI{1}{\percent}$ & 1.22 & 0.87 & 0.97 \\
       \bottomrule
     \end{tabular}
   \end{minipage}\hfill
@@ -173,8 +184,10 @@ activation energy of ion conduction in \ce{MAPbI3} films falls under tension,\ci
     \includegraphics[width=0.78\linewidth]{wp_hop_path.pdf}
     \captionof{figure}{Iodide hop paths into a vacancy in the film plane, the (001) plane
       parallel to the substrate: from a neighbouring in-plane site, or from the apical site of the same octahedron,
-      which moves iodide along the film normal towards the transport layers. In \CsSnI{} the in-phase tilt axis is
-      along the normal.}
+      which moves iodide along the film normal towards the transport layers. Each hop passes between two caesium ions
+      (dashed pairs): above and below the plane for the in-plane hop, beside it within the plane for the hop towards
+      the normal. In-plane tension separates the second pair; the slight thinning of the film brings the first pair
+      closer.}
     \label{fig:wp-hop}
   \end{minipage}
 \end{figure}
@@ -194,9 +207,9 @@ phase. The residual stress of a processed film,
 50 to \SI{80}{MPa}, shifts the balance by only 2 to \SI{4}{meV} per formula unit and the crossing by 11 to
 \SI{18}{K}. An in-plane strain of about \SI{1}{\percent}, the level at which substrate clamping keeps black
 CsPbI$_3$ films from converting,\cite{Steele2019Science} corresponds to \SI{230}{MPa} in \CsSnI{} and moves the
-crossing to 300 to \SI{335}{K}, close to the operating temperature. Strain is therefore a trade-off in \CsSnI{}: each
-percent of in-plane tension stabilises the black phase by about \SI{11}{meV} per formula unit, but also doubles the
-rate of iodide migration (Section~\ref{sec:wp-hop}).
+crossing to 300 to \SI{335}{K}, close to the operating temperature. Each percent of in-plane tension thus stabilises the black
+phase by about \SI{11}{meV} per formula unit, without changing the overall rate of iodide migration
+(Section~\ref{sec:wp-hop}).
 
 \begin{figure}[t]
   \centering

@@ -8,13 +8,13 @@
 \textbf{The question.} Before making a perovskite film, can we predict how composition, annealing and substrate constraints will affect its structure, band gap and stability-related mechanisms? If so, we could identify promising processing conditions and prioritize experiments rather than relying primarily on trial and error.
 
 \textbf{Why it matters.} The absorber is a polycrystalline film bonded to its substrate during the anneal; on
-cooling the substrate leaves it under 50 to \SI{150}{MPa} of tension, known to speed up degradation. In
+cooling the substrate leaves it under 50 to \SI{150}{MPa} of tension, reported to speed up degradation. In
 \CsSnI{}, \MASnI{} and \FASnI{} the tilts that set the band gap change near device temperatures, and
 black \CsSnI{} competes with a yellow phase.
 
-\textbf{The short answer.} Processing strain has a relatively small effect on band gap but can change iodide mobility and phase stability. In \CsSnI{}, tensile strain creates a trade-off: it favours the photovoltaic black phase while accelerating iodide migration. Understanding such competing effects can help guide process optimization.
+\textbf{The short answer.} Processing strain barely moves the band gap or the overall rate of iodide migration, but it steers iodide: tension sends it along the film normal, towards the contacts. In \CsSnI{} it stabilises the photovoltaic black phase only slightly. Knowing what a process variable does not control also focuses optimisation.
 
-\textbf{What we did.} With UrsaMLFF, our machine-learned force field, we took films of all three through an idealised anneal and cooling on a substrate, and computed band gap, iodide-migration barrier and black-phase stability.
+\textbf{What we did.} With UrsaMLFF, our machine-learned force field, we took films of all three through an idealised anneal and cooling on a substrate, and computed band gap, iodide migration and black-phase stability.
 
 \textbf{What we found.}
 \begin{itemize}[leftmargin=12pt, itemsep=0pt, topsep=1pt]
@@ -25,31 +25,26 @@ black \CsSnI{} competes with a yellow phase.
   \item \textbf{Processing leaves 0.2 to 0.4\,\% tension} (50 to \SI{77}{MPa}, as measured in films), with every tilt pattern unchanged.
   \item \textbf{The band gap is not a processing variable:} the films open by 8 to \SI{19}{meV}, purely elastically,
     less than the 35 to \SI{67}{meV} by which the gap fluctuates at operating temperature.
-  \item \textbf{Tension speeds up iodide migration in \CsSnI{}}: hops 1.2 to 1.5 times faster at the residual strain
-    (as if the film ran 3 to \SI{8}{K} hotter), twice at \SI{1}{\percent}. The hybrids hardly respond to tension, but
-    \SI{1}{\percent} compression speeds their in-plane hops 4 to 10 times.
+  \item \textbf{Strain steers iodide instead of speeding it up:} per percent of tension, migration in \CsSnI{} becomes
+    1.22 times faster along the normal and 0.87 times as fast in the plane, overall unchanged, as in MA films.
+    Counter-intuitively, the stretch opens the paths towards the normal; the slight thinning narrows those in the plane.
 
-  \item \textbf{A quantified trade-off in \CsSnI{}:} a processing condition can improve one property while
-    worsening another. Tensile strain favours the photovoltaic black phase but accelerates iodide migration: typical
-    residual processing strain gives only 2 to \SI{4}{meV} per formula unit of black-phase stabilisation (yellow is
-    lower by 11 to \SI{19}{meV}) while iodide hops 1.2 to 1.5 times faster. Quantifying both sides gives a guideline
-    for optimising the process.
+  \item \textbf{Quantified, strain is no lever for \CsSnI{}:} residual tension gives only 2 to \SI{4}{meV} per
+    formula unit of black-phase stabilisation (yellow is lower by 11 to \SI{19}{meV}) and raises migration towards the
+    contacts by only about \SI{5}{\percent}.
 \end{itemize}
 
 \textbf{What it means for experiment and manufacturing.}
 \begin{itemize}[leftmargin=12pt, itemsep=0pt, topsep=1pt]
   \item Substrate and anneal do not noticeably affect or deteriorate the band gap of tin iodide films; shifts of tens of meV point to
     composition or carrier concentration.
-  \item For \CsSnI{}, reduce residual tension (lower anneal temperature, thermally matched substrate or transport
-    layer, hot-deposited transport layer) to slow migration, and keep it black by blocking yellow nucleation,
-    not by strain.
-  \item For MA and FA films, aim for low residual strain rather than compression.
-  
+  \item Keep \CsSnI{} black by blocking yellow nucleation, not by strain; where iodide reaching the contacts limits
+    lifetime, lower residual tension (cooler anneal, matched or hot-deposited transport layer) trims it slightly.
 \end{itemize}
 
-\textbf{How to test it.} The ion-conduction activation energy of \CsSnI{} films should fall by 17 to
-\SI{35}{meV} per percent of tension; the gap of MA and FA films should not follow residual stress beyond about
+\textbf{How to test it.} Under tension, ion conduction in \CsSnI{} films should speed up across the film (about
+\SI{20}{\percent} per percent) and slow along it (\SI{13}{\percent}) at unchanged activation energy; the gap of MA and FA films should not follow residual stress beyond about
 \SI{15}{meV}; the yellow--black balance of \CsSnI{} should shift by only about \SI{0.2}{K} per MPa.
 
-\textbf{Where this leads.} Today, the framework can model idealised annealing and substrate constraints for CsSnI\textsubscript{3}, MASnI\textsubscript{3} and FASnI\textsubscript{3}, predicting residual strain, structural response, band-gap changes and iodide-migration barriers in days. With grain boundaries, realistic interfaces and reactive atmospheres added and validated, the long-term goal is a virtual process line that helps researchers screen processing conditions, identify competing stability mechanisms and prioritize experiments before fabrication.
+\textbf{Where this leads.} Today, the framework can model idealised annealing and substrate constraints for CsSnI\textsubscript{3}, MASnI\textsubscript{3} and FASnI\textsubscript{3}, predicting residual strain, structural response, band-gap changes and iodide migration in days. With grain boundaries, realistic interfaces and reactive atmospheres added and validated, the long-term goal is a virtual process line that helps researchers screen processing conditions, identify competing stability mechanisms and prioritize experiments before fabrication.
 \end{tcolorbox}

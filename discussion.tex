@@ -6,7 +6,8 @@
 
 The results trace one chain from process to device. The cation fixes the tilt pattern; the anneal and the substrate
 leave the film under 0.2 to \SI{0.4}{\percent} in-plane tension, within the range measured in films, without changing
-that pattern; and the tension acts on the lifetime of the film, not on its band gap. Four points follow for experiment
+that pattern; and the tension changes neither the band gap nor the overall rate of iodide migration, only its
+direction. Four points follow for experiment
 and manufacturing.
 
 \paragraph{Band gap.} In all three tin iodides the residual strain of processing shifts the gap by 10 to \SI{20}{meV},
@@ -14,18 +15,19 @@ less than its thermal fluctuation at the operating temperature. Substrate and an
 deteriorate the band gap, and shifts of several tens of meV measured on such films point to other causes, such as composition or
 carrier concentration.
 
-\paragraph{A strain budget for \CsSnI{}.} Tension speeds up iodide migration, by 1.2 to 1.5 times at the strain left by
-processing and about twice at \SI{1}{\percent}, but it also stabilises the black phase, by about \SI{11}{meV} per
-formula unit per percent. The residual tension of processing buys only 2 to \SI{4}{meV} of phase stability, too little
-to keep the film black, at the price of faster migration; the \SI{1}{\percent} that would make black about as stable as
-yellow at the operating temperature doubles it. The better route is low residual tension, through a lower anneal
+\paragraph{A strain budget for \CsSnI{}.} Tension stabilises the black phase, by about \SI{11}{meV} per formula unit
+per percent, and does not speed up iodide migration; it turns migration towards the film normal. The residual tension
+of processing buys only 2 to \SI{4}{meV} of phase stability, too little to keep the film black, and raises migration
+towards the contacts by about \SI{5}{\percent}, as much as operating 1 to \SI{2}{K} hotter. Strain is therefore not the
+lever for either property. The black phase needs protection against nucleation of the yellow phase. The direction of
+migration matters for devices, because iodide that moves along the normal reaches the transport layers and electrodes,
+where it accumulates and reacts; where this limits the lifetime, low residual tension, through a lower anneal
 temperature, a substrate or transport layer whose thermal expansion is closer to that of the film, or a transport layer
 deposited hot so that it compresses the film on cooling, as demonstrated for CsPbI$_2$Br,\cite{ref_processing_temp}
-combined with protection against nucleation of the yellow phase.
+trims the vertical flux by a few percent.
 
-\paragraph{Hybrid films.} \MASnI{} and \FASnI{} films are hardly affected by tension, but compression speeds up their
-in-plane iodide hops, about 10 (MA) and 4 times (FA) at \SI{1}{\percent}. Compressive routes that help \CsSnI{} should
-therefore not be carried over to the hybrids; for them, low residual strain of either sign is the target.
+\paragraph{Hybrid films.} In \MASnI{} strain redirects iodide migration as in \CsSnI{}, without changing the
+average barrier of the hops. For \FASnI{} too few hops occurred under compression to settle the question.
 
 \paragraph{Choice of cation.} A cation with hydrogen-bonding groups at both ends (FA) selects in-phase tilting, one
 anchored at a single end (MA) antiphase tilting: a criterion for anticipating the tilt pattern of new cations and
@@ -33,9 +35,10 @@ mixtures.
 
 \paragraph{Measurements that would test the predictions.}
 \begin{enumerate}[leftmargin=14pt, itemsep=1pt, topsep=2pt]
-  \item The activation energy of ion conduction in \CsSnI{} films, from temperature-dependent impedance on substrates
-    that leave different residual stress or under controlled bending, should fall by 17 to \SI{35}{meV} per percent
-    of in-plane tension; in MA and FA films it should change little under tension.
+  \item Ion conduction in \CsSnI{} films, measured across the film (sandwich electrodes) and along it (interdigitated
+    electrodes) on substrates that leave different residual stress or under controlled bending, should grow more
+    anisotropic under tension, by about \SI{20}{\percent} faster across and \SI{13}{\percent} slower along per percent of
+    in-plane strain, while its activation energy stays the same.
   \item The band gap of MA and FA films, from photoluminescence or absorption, should not follow their residual
     stress, measured by X-ray diffraction, by more than about \SI{15}{meV} over the range left by processing.
   \item The yellow--black balance of \CsSnI{} should shift by only about \SI{0.2}{K} per MPa of in-plane tension, a weak
@@ -60,7 +63,7 @@ and channel iodide migration. An explicit substrate and transport layer will add
 mismatch of thermal expansion. With these extensions the same framework can rank process windows
 (anneal temperature, cooling rate, substrate, transport layer and atmosphere) by the band gap and lifetime they
 produce, and test compositions before they are synthesised. Within the present chemistry (Cs, MA and FA cations, tin and iodide)
-a new anneal and substrate can be assessed today: the process history, residual strain and migration barriers take a
+a new anneal and substrate can be assessed today: the process history, residual strain and iodide migration take a
 few days on a single GPU server, and the band gaps a similar time on a supercomputer. For manufacturers this replaces
 part of the trial and error of process tuning by a screened search; for experimentalists it gives
 the structural picture behind measurements on strained films.
